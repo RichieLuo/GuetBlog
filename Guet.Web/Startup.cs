@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StackExchange.Redis;
 
 namespace Guet.Web
 {
@@ -74,8 +75,18 @@ namespace Guet.Web
             services.AddTransient<IEntityRepository<Message>, EntityRepository<Message>>();
             services.AddTransient<IEntityRepository<SiteSetting>, EntityRepository<SiteSetting>>();
             services.AddTransient<IEntityRepository<Banner>, EntityRepository<Banner>>();
+            #region redis相关
+            //ConnectionMultiplexer.Connect("Redis1_IP地址:端口,password=密码");
+            var url = Configuration["RedisUrl"];
+            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(url));
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = url;
+                options.InstanceName = "GuetBlog";
+            });
+            #endregion
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
