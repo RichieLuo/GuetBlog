@@ -1,0 +1,101 @@
+﻿
+@{
+    Layout = null;
+
+}
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>博客安装</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/frame/admin/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="~/frame/admin/css/style.css" rel="stylesheet">
+    <style>
+        .install-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            width: 600px;
+            height: auto;
+            padding: 50px 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="install-container bg-white text-center">
+        <h3>@(ViewBag.HasInstall?"站点已经安装，请勿重复安装！": "安装信息填写")</h3>
+        @if (ViewBag.HasInstall)
+        {
+            <a href="/Home/Index">返回首页</a>
+        }
+        else
+        {
+            <div class="card-body">
+                <form class="form-horizontal" name="InstallForm" action="" method="post" onsubmit="return false;">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="NickName">个人昵称</label>
+                        <div class="col-md-7"><input class="form-control" type="text" id="NickName" name="NickName" placeholder="请输入您的昵称..."></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="Email">个人邮箱</label>
+                        <div class="col-md-7"><input class="form-control" type="email" id="Email" name="Email" placeholder="请输入您的邮箱..."></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Remark"></label>
+                        <label class="col-md-3 control-label" for="Remark">个人描述</label>
+                        <div class="col-md-7"><textarea class="form-control" name="Remark" id="Remark" rows="3"></textarea></div> 
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="UserName">用户名</label>
+                        <div class="col-md-7"><input class="form-control" type="text" id="UserName" name="UserName" value="admin" placeholder="请输入登录用户名.."></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="Password">登录密码</label>
+                        <div class="col-md-7"><input class="form-control" type="password" id="Password" name="Password" placeholder="请输入登录密码.."></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="ConfirmPassword">确认密码</label>
+                        <div class="col-md-7"><input class="form-control" type="password" id="ConfirmPassword" name="ConfirmPassword" placeholder="请再次输入登录密码.."></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12"><button class="btn btn-primary" type="button" id="InstallBtn" style="width:30%;">立即安装</button></div>
+                    </div>
+                </form>
+            </div>
+
+        }
+    </div>
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/js/common.js"></script>
+    <script>
+        window.onload = function () {
+            $("#InstallBtn").off("click").on("click", function () {
+                var _loginData = $("form[name=InstallForm]").serializeJson();
+                $.ajax({
+                    url: "/Account/Install",
+                    type: "post",
+                    data: _loginData,
+                    dataType: "json",
+                    success: function (res) {
+                        console.log(res);
+                        alert(res.msg);
+                        if (res.status) {
+                            location.href = res.returnUrl;
+                        }
+                    },
+                    fail: function () {
+                        alert(res.msg);
+                        console.log("登录出错！");
+                    }
+                })
+            });
+        }
+
+    </script>
+</body>
+</html>

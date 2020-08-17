@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "_LayoutIndex";
+    ViewData["Title"] = "留言板";
+}
+
+ 
+@using Guet.ViewModels.Site;
+@*@model MessageVM*@
+<div class="container">
+    <div class="layui-row">
+        <div class="layui-col-md9 bg-white" style="padding:20px;box-sizing:border-box;position:relative;min-height:600px">
+            <h4 style="font-weight:700;width:80px; padding-bottom: 10px; text-align:center;margin-bottom:20px; border-bottom: 2px solid var(--theme-color-dark);">留言板</h4>
+            <div>
+                 留言板页面待做...
+            </div>
+        </div>
+        <div class="layui-col-md3">
+            <div class="article-right-content">
+                @await Component.InvokeAsync("LabelsVC");
+            </div>
+        </div>
+    </div>
+</div>

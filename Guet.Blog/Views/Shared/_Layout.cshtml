@@ -1,0 +1,219 @@
+﻿
+@using Guet.DataAccess;
+@using Microsoft.AspNetCore.Identity;
+@using Guet.Entities.ApplicationOrganization;
+@inject UserManager<ApplicationUser> userManager;
+
+@{ 
+    var user = await userManager.FindByNameAsync(User.Identity?.Name);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - 后台管理</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/frame/admin/css/animate.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/wangEditor-3.1.1/release/wangEditor.min.css" />
+        <link rel="stylesheet" href="~/frame/admin/css/materialdesignicons.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/frame/admin/css/style.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/frame/admin/css/animate.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/wangEditor-3.1.1/release/wangEditor.min.css" />
+        <link rel="stylesheet" href="~/frame/admin/css/materialdesignicons.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/frame/admin/css/style.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+        @*<link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />*@
+    </environment>
+</head>
+<body data-logobg="color_8" data-sidebarbg="color_8">
+    <div class="lyear-layout-web">
+        <div class="lyear-layout-container">
+            <!--左侧导航-->
+            <aside class="lyear-layout-sidebar">
+                <!-- logo -->
+                <div id="logo" class="sidebar-header blog-logo-title">
+                    <a href="/Admin/Index" title="博客后台管理系统">博客后台管理系统</a>
+                </div>
+                <div class="lyear-layout-sidebar-scroll">
+                    <nav class="sidebar-main">
+                        <ul class="nav nav-drawer admin-navs">
+                            <li class="nav-item active"><a href="javascript:" data-id="Index" data-href="/Admin/Index"><i class="mdi mdi-home"></i>后台首页</a></li>
+                            <li class="nav-item nav-item-has-subnav">
+                                <a href="javascript:void(0)"><i class="mdi mdi-account-location"></i>用户管理</a>
+                                <ul class="nav nav-subnav">
+                                    <li><a href="/Admin/Users" data-id="User" data-href="/Admin/User">用户列表</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item nav-item-has-subnav">
+                                <a href="javascript:void(0)"><i class="mdi mdi-format-color-text"></i>文章管理</a>
+                                <ul class="nav nav-subnav">
+                                    <li><a href="/Admin/Articles">文章列表</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item nav-item-has-subnav">
+                                <a href="javascript:void(0)"><i class="mdi mdi-format-color-text"></i>标签管理</a>
+                                <ul class="nav nav-subnav">
+                                    <li><a href="/Admin/Label">标签列表</a></li> 
+                                </ul>
+                            </li>
+                            <li class="nav-item nav-item-has-subnav">
+                                <a href="javascript:void(0)"><i class="mdi mdi-format-color-text"></i>分类管理</a>
+                                <ul class="nav nav-subnav">
+                                    <li><a href="/Admin/Category">分类列表</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item nav-item-has-subnav">
+                                <a href="javascript:void(0)"><i class="mdi mdi-message-text"></i>留言管理</a>
+                                <ul class="nav nav-subnav">
+                                    <li><a href="/Admin/Todo">留言列表</a></li> 
+                                </ul>
+                            </li>
+                            <li class="nav-item nav-item-has-subnav">
+                                <a href="javascript:void(0)"><i class="mdi mdi-settings-box"></i>网站管理</a>
+                                <ul class="nav nav-subnav">
+                                    <li><a href="/Admin/SiteSettings">基本设置</a></li> 
+                                    <li><a href="/Admin/FriendLink">友情链接</a></li>
+                                    <li><a href="/Admin/Banner">轮播图</a></li>
+                                    <li><a href="/Admin/About">关于我</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="sidebar-footer">
+                        <p class="copyright">Copyright &copy; @DateTime.Now.ToString("yyyy"). All rights Reserved.</p>
+                    </div>
+                </div>
+            </aside>
+            <!--End 左侧导航-->
+            <!--头部信息-->
+            <header class="lyear-layout-header">
+                <nav class="navbar navbar-default">
+                    <div class="topbar">
+                        <div class="topbar-left">
+                            <div class="lyear-aside-toggler"><span class="lyear-toggler-bar"></span><span class="lyear-toggler-bar"></span><span class="lyear-toggler-bar"></span></div>
+                            <h5>亲爱的管理员 <span style="display:inline-block;padding:0 5px;color:#33cabb;">@user.NickName（@user.UserName）</span>，当前时间：<span id="CurrentTime"> @DateTime.Now.ToString("yyyy年MM月dd HH点mm分ss秒") </span></h5>
+                        </div>
+                        <ul class="topbar-right">
+                            <li class="dropdown dropdown-profile">
+                                <a href="javascript:void(0)" data-toggle="dropdown">
+                                    <img class="img-avatar img-avatar-48 m-r-10" src="@user?.Avatar" alt="@user?.NickName"><span>@user?.NickName <span class="caret"></span></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="/Admin/Profile"><i class="mdi mdi-account"></i>个人信息</a></li>
+                                    <li><a href="/Admin/ChangePassword"><i class="mdi mdi-lock-outline"></i>修改密码</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="javascript:" id="AdminLogout"><i class="mdi mdi-logout-variant"></i>退出登录</a></li>
+                                </ul>
+                            </li>
+                            <!--切换主题配色-->
+                            <li class="dropdown dropdown-skin">
+                                <span data-toggle="dropdown" class="icon-palette"><i class="mdi mdi-palette"></i></span>
+                                <ul class="dropdown-menu dropdown-menu-right" data-stoppropagation="true">
+                                    <li class="drop-title">
+                                        <p>主题</p>
+                                    </li>
+                                    <li class="drop-skin-li clearfix"><span class="inverse"><input type="radio" name="site_theme" value="default" id="site_theme_1" checked=""><label for="site_theme_1"></label></span><span><input type="radio" name="site_theme" value="dark" id="site_theme_2"><label for="site_theme_2"></label></span><span><input type="radio" name="site_theme" value="translucent" id="site_theme_3"><label for="site_theme_3"></label></span></li>
+                                    <li class="drop-title">
+                                        <p>LOGO</p>
+                                    </li>
+                                    <li class="drop-skin-li clearfix"><span class="inverse"><input type="radio" name="logo_bg" value="default" id="logo_bg_1" checked=""><label for="logo_bg_1"></label></span><span><input type="radio" name="logo_bg" value="color_2" id="logo_bg_2"><label for="logo_bg_2"></label></span><span><input type="radio" name="logo_bg" value="color_3" id="logo_bg_3"><label for="logo_bg_3"></label></span><span><input type="radio" name="logo_bg" value="color_4" id="logo_bg_4"><label for="logo_bg_4"></label></span><span><input type="radio" name="logo_bg" value="color_5" id="logo_bg_5"><label for="logo_bg_5"></label></span><span><input type="radio" name="logo_bg" value="color_6" id="logo_bg_6"><label for="logo_bg_6"></label></span><span><input type="radio" name="logo_bg" value="color_7" id="logo_bg_7"><label for="logo_bg_7"></label></span><span><input type="radio" name="logo_bg" value="color_8" id="logo_bg_8"><label for="logo_bg_8"></label></span></li>
+                                    <li class="drop-title">
+                                        <p>头部</p>
+                                    </li>
+                                    <li class="drop-skin-li clearfix"><span class="inverse"><input type="radio" name="header_bg" value="default" id="header_bg_1" checked=""><label for="header_bg_1"></label></span><span><input type="radio" name="header_bg" value="color_2" id="header_bg_2"><label for="header_bg_2"></label></span><span><input type="radio" name="header_bg" value="color_3" id="header_bg_3"><label for="header_bg_3"></label></span><span><input type="radio" name="header_bg" value="color_4" id="header_bg_4"><label for="header_bg_4"></label></span><span><input type="radio" name="header_bg" value="color_5" id="header_bg_5"><label for="header_bg_5"></label></span><span><input type="radio" name="header_bg" value="color_6" id="header_bg_6"><label for="header_bg_6"></label></span><span><input type="radio" name="header_bg" value="color_7" id="header_bg_7"><label for="header_bg_7"></label></span><span><input type="radio" name="header_bg" value="color_8" id="header_bg_8"><label for="header_bg_8"></label></span></li>
+                                    <li class="drop-title">
+                                        <p>侧边栏</p>
+                                    </li>
+                                    <li class="drop-skin-li clearfix"><span class="inverse"><input type="radio" name="sidebar_bg" value="default" id="sidebar_bg_1" checked=""><label for="sidebar_bg_1"></label></span><span><input type="radio" name="sidebar_bg" value="color_2" id="sidebar_bg_2"><label for="sidebar_bg_2"></label></span><span><input type="radio" name="sidebar_bg" value="color_3" id="sidebar_bg_3"><label for="sidebar_bg_3"></label></span><span><input type="radio" name="sidebar_bg" value="color_4" id="sidebar_bg_4"><label for="sidebar_bg_4"></label></span><span><input type="radio" name="sidebar_bg" value="color_5" id="sidebar_bg_5"><label for="sidebar_bg_5"></label></span><span><input type="radio" name="sidebar_bg" value="color_6" id="sidebar_bg_6"><label for="sidebar_bg_6"></label></span><span><input type="radio" name="sidebar_bg" value="color_7" id="sidebar_bg_7"><label for="sidebar_bg_7"></label></span><span><input type="radio" name="sidebar_bg" value="color_8" id="sidebar_bg_8"><label for="sidebar_bg_8"></label></span></li>
+                                </ul>
+                            </li>
+                            <!--切换主题配色-->
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <!--End 头部信息-->
+            <!--页面主要内容-->
+            <main class="lyear-layout-content">
+                <div class="container-fluid">
+                    @RenderBody()
+                </div>
+            </main>
+            <!--End 页面主要内容-->
+        </div>
+    </div>
+
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/wangEditor-3.1.1/release/wangEditor.min.js"></script>
+        <script src="~/frame/admin/js/perfect-scrollbar.min.js" asp-append-version="true"></script>
+        <script src="~/frame/admin/js/main.js" asp-append-version="true"></script>
+        <script src="~/js/common.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+
+    </environment>
+
+
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/lib/wangEditor-3.1.1/release/wangEditor.min.js"></script>
+        <script src="~/frame/admin/js/perfect-scrollbar.min.js" asp-append-version="true"></script>
+        <script src="~/frame/admin/js/main.js" asp-append-version="true"></script>
+        <script src="~/js/common.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <script>
+        $("#AdminLogout").off("click").on("click", function () {
+            $.ajax({
+                url: "/Account/Logout",
+                type: "post",
+                data: { isAdmin: true },
+                dataType: "json",
+                success: function (res) {
+                    alert(res.msg);
+                    if (res.status) {
+                        location.href = res.returnUrl;
+                    }
+                },
+                fail: function () {
+                    alert(res.msg);
+                }
+            })
+        });
+         
+        function getTime() {
+            var date = new Date();
+            var t = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日  ${date.getHours()}点${date.getMinutes()}分${date.getSeconds()}秒`;
+            $("#CurrentTime").text(t);
+        }
+        setInterval(() => {
+            getTime();
+        },1000)
+        getTime();
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

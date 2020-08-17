@@ -1,0 +1,11 @@
+﻿@model ErrorViewModel
+@{
+    Layout = "_LayoutIndex";
+    ViewData["Title"] = Model.RequestId;
+}
+
+<h1>错误信息: @Model.Msg</h1>
+<h3>错误状态: @Model.Status</h3>
+<h3>错误状态码: @Model.Code</h3>
+<h5>错误请求标识: @Model.RequestId</h5>
+

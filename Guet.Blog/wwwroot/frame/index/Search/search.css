@@ -1,0 +1,17 @@
+.search-container {}
+
+.search-container.container {}
+
+.search-tips {}
+
+.search-tips .tip-item {
+    display: none;
+}
+
+.panel-dark>.panel-heading {
+    color: white;
+    background-color: var(--theme-color-dark);
+    border-color: var(--theme-color-dark);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}

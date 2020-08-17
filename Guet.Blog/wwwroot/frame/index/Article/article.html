@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>博客文章</title>
+    <link rel="stylesheet" href="../libs/layui/css/layui.css">
+    <link rel="stylesheet" href="../libs/wangEditor-3.1.1/release/wangEditor.min.css">
+    <link rel="stylesheet" href="../Common/base.css">
+    <link rel="stylesheet" href="./article.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <!-- 该部分内容参考：https://www.yangruolan.com/blog/375.html#comment -->
+    <section class="article-container container">
+        <div class="layui-row">
+            <div class="layui-col-md9 article-left">
+                <div class="article-nav-tips layui-row">
+                    <div class="layui-col-md8">
+                        <span class="layui-breadcrumb">
+                            <a href="/">首页</a>
+                            <a href="/category/">文章分类</a>
+                            <a><cite>文章标题</cite></a>
+                        </span>
+                    </div>
+                    <div class="layui-col-md4 text-right">
+                        <button type="button" id="BackToList" class="layui-btn layui-btn-primary layui-btn-xs"><i class="layui-icon">&#xe65c;</i>返回列表</button>
+                        <button type="button" id="ToggleRight" class="layui-btn layui-btn-primary layui-btn-xs" title="隐藏侧边栏"><i class="layui-icon">&#xe66b;</i>隐藏侧边栏</button>
+                    </div>
+                </div>
+                <div class="article-head">
+                    <h3 class="article-title">文章标题</h3>
+                    <div class="article-description">
+                        <span>
+                            发布时间：
+                            <span class="article-time-ago">2020-02-29 20:01</span>
+                        </span>
+                        <span>
+                            修改时间：
+                            <span class="article-time-ago">2020-02-29 20:01</span>
+                        </span>
+                        <span>
+                            浏览次数：
+                            <span class="article-visite-count">999999</span>
+                        </span>
+                    </div>
+                    <hr class="article-line">
+                </div>
+                <div class="article-content">
+                    <div id="BlogEditorContent">
+                        TODO显示：文章的内容，由富文本编辑器内容填充
+                    </div>
+                </div>
+                <div class="article-files-download text-center">
+                    TODO显示：可下载的附件区域
+                </div>
+                <div class="article-share" id="ArticleShareCode">
+
+                </div>
+                <ul class="article-likes">
+                    <!-- 显示：文章点赞、踩、打赏区域 -->
+                    <li class="layui-btn layui-btn-danger" id="ArticleLike" title="点赞">
+                        <i class="layui-icon layui-icon-praise"></i>赞 <span class="article-like-count">999999</span>
+                    </li>
+                    <li class="blog-radius article-like-reward" id="ArticleReward" title="打赏">
+                        <button type="button" class="layui-btn bg-blue blog-radius">赏</button>
+                    </li>
+                    <li href="#GoArticleShare" class="layui-btn layui-btn-warm " id="ArticleShare" title="分享">
+                        <a href="javascript:" class="bshareDiv"></a>
+                        <span class="article-share-text"><i class="layui-icon layui-icon-share"></i>分享</span>
+                    </li>
+                    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#uuid=&amp;style=10&amp;bgcolor=Orange&amp;ssc=false"></script>
+                </ul>
+                <div class="article-about-recommend text-center">
+                    TODO显示：分页，上一篇，下一篇
+                </div>
+                <div class="article-about-recommend text-center">
+                    TODO显示：相关文章的推荐
+                </div>
+                <div class="article-idcard hiden">
+                    显示：博主相关信息和站点文章统计等
+                </div>
+                <div class="article-comment-area">
+                    <h3 class="comment-title"><i class="layui-icon layui-icon-edit"></i> 发表评论</h3>
+                    <form class="layui-form  layui-form-pane comment-form" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-row">
+                                <div class="layui-col-md4">
+                                    <input type="text" name="NickName" required lay-verify="required" placeholder="名称（必填）" autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="layui-col-md4">
+                                    <input type="text" name="EMail" required lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="layui-col-md4">
+                                    <input type="text" name="WebSite" required lay-verify="required" placeholder="http://" autocomplete="off" value="http://" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">快捷回复</label>
+                                <div class="layui-input-block">
+                                    <textarea name="CommentText" placeholder="和谐网络 文明上网 理性发言！O(∩_∩)O~~" class="layui-textarea"></textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-inline">
+                                    <button class="layui-btn" lay-submit lay-filter="CommentBtn" data-level="1">发表评论</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="article-comments">
+                    <h3 class="comment-title"><i class="layui-icon layui-icon-dialogue"></i> 评论列表</h3>
+                    <ul class="article-comment-list level1">
+                        <li class="article-comment-item not-comments text-center">暂无任何评论内容Ծ‸Ծ</li>
+                        <li class="article-comment-item display-none">
+                            <div class="layui-row">
+                                <div class="layui-col-md1">
+                                    <img class="blog-radius comments-user-avatar" src="../images/header/avatar_002.jpg" alt="">
+                                </div>
+                                <div class="layui-col-md11 comments-details">
+                                    <div class="comments-user-info">
+                                        <a class="comments-user-nickname" href="javascript:" title="提拉米苏的呆猫儿">提拉米苏的呆猫儿</a>
+                                        <span class="comments-user-identity layui-btn layui-btn-xs">游客</span>
+                                        <span class="article-time-ago">1天前（2020-02-28 20:28）</span>
+                                        <button type="button" class="layui-btn layui-btn-xs comments-reply-btn" data-userid="" data-nickname="提拉米苏的呆猫儿" data-level="2">回复</button>
+                                    </div>
+                                    <div class="comment-item-content">
+                                        有机会必须要上，没有机会创造机会也要上。人生匆匆，为自己过得更好点岂能不尽心？只要对得起天地良心即可，不要过分的在乎外界的评价。有机会必须要上，没有机会创造机会也要上。人生匆匆，为自己过得更好点岂能不尽心？只要对得起天地良心即可，不要过分的在乎外界的评价。
+                                    </div>
+                                    <ul class="article-comment-list level2 border-line">
+                                        <li class="article-comment-item">
+                                            <div class="layui-row">
+                                                <div class="layui-col-md12 comments-details">
+                                                    <div class="comments-user-info">
+                                                        <a class="comments-user-nickname" href="javascript:" title="小鱼呆猫儿">小鱼呆猫儿</a>
+                                                        <span class="comments-user-identity identity-admin layui-btn layui-btn-xs">博主·站务管理</span>
+                                                        <span class="article-time-ago">1天前（2020-02-28 23:28）</span>
+                                                        <button type="button" class="layui-btn layui-btn-xs comments-reply-btn" data-userid="" data-nickname="提拉米苏的呆猫儿" data-level="3">回复</button>
+                                                    </div>
+                                                    <div class="comment-item-content">
+                                                        <a href="javascript:" class="layui-btn layui-btn-primary layui-btn-xs" title="提拉米苏的呆猫儿">@提拉米苏的呆猫儿</a> 好的，感谢您的评论，你是个好人...
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                </div>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="layui-col-md3 article-right">
+                <div class="article-right-content">
+                    右侧栏目
+                </div>
+            </div>
+        </div>
+        <div class="blog-editor">
+            <div id="BlogEditor"></div>
+
+        </div>
+
+    </section>
+
+    <!-- 脚本 -->
+    <script src="../libs/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <script src="../libs/layer/layer.js"></script>
+    <script src="../libs/layui/layui.js"></script>
+    <script src="../libs/wangEditor-3.1.1/release/wangEditor.min.js"></script>
+
+    <script src="../Common/base.js"></script>
+    <script src="./article.js"></script>
+    <script>
+        //使用手册：https://www.kancloud.cn/wangfupeng/wangeditor3/335782
+        window.onload = function() {
+
+            layui.use(['element', 'layer'], function() {
+                let element = layui.element,
+                    layer = layui.layer;
+
+                //后台使用
+                const _blogArticleEditor = {
+                    render: function(options) {
+                        let _this = this,
+                            _options = {
+                                isDialog: false,
+                                element: '',
+                                width: '1200px',
+                                height: '450px'
+                            },
+                            E = window.wangEditor;
+                        $.extend(_options, options);
+
+                        if (_options.isDialog) {
+                            _options.element = '#BlogArticleEditor' + new Date().getTime()
+                            layer.open({
+                                type: 1,
+                                title: '文章富文本编辑器',
+                                area: [_options.width, _options.height],
+                                id: 'BlogArticleEditor',
+                                skin: 'BlogArticleEditor', //没有背景色
+                                shade: 0,
+                                maxmin: true,
+                                content: `
+                                    <div id="${ _options.element.replace('#','')}"><!-- 富文本编辑器 --></div>
+                                `,
+                                success: function(layero) {
+                                    _this.binds(_this.editor(_options));
+                                }
+                            });
+                            console.log(1)
+                        } else {
+                            console.log(2)
+                            _this.binds(_this.editor(_options));
+                        }
+                        return _options;
+                    },
+                    editor: function(options) {
+                        let _options = {
+                                isDialog: false,
+                                element: '',
+                                uploadImgServer: '/upload'
+                            },
+                            E = window.wangEditor;
+                        $.extend(_options, options);
+                        let editor = new E(_options.element);
+                        // 配置服务器端地址
+                        if (_options.uploadImgServer) {
+                            editor.customConfig.uploadImgServer = _options.uploadImgServer;
+                        }
+                        editor.create();
+                        _options.editor = editor;
+                        return _options;
+                    },
+                    binds: function(options) {
+                        let _parseBtn = `
+                            <div style="text-align: center;margin: 20px 0;">
+                                <button type="button" class="btn btn-success" id="ParseHtml">将富文本内容转成html</button>
+                            </div>
+                        `;
+                        $(options.element).after(_parseBtn);
+                        $('#ParseHtml').off('click').on('click', function() {
+                            $('#BlogEditorContent').html(options.editor.txt.html())
+                        });
+                    },
+                    init: function(options) {
+                        this.render(options);
+                    }
+                };
+                _blogArticleEditor.init({
+                    isDialog: true,
+                    element: '#BlogEditor',
+                    width: '800px',
+                });
+            });
+        }
+    </script>
+
+</body>
+
+</html>

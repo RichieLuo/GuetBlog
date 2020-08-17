@@ -1,0 +1,326 @@
+﻿@using Guet.ViewModels.Blogs;
+@model AddArticleVM;
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "添加文章";
+}
+<link href="~/lib/layui/css/layui.css" rel="stylesheet" />
+<div class="bg-white card-body">
+    <form class="form-horizontal" name="AddArticleForm" action="#" method="post" onsubmit="return false;">
+        <input type="hidden" name="IsNew" value="@Model.IsNew.ToString().ToLower()" />
+        <input type="hidden" name="ArticleId" value="@Model.Article?.Id" />
+        <div class="row">
+            <div class="col-md-9">
+                <div class="form-group">
+                    <div class="col-md-9" style="padding-right:0">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" style="width:100px">文章标题</label>
+                            <div class="col-md-10"><input class="form-control" type="text" id="Title" name="Title" value="@Model.Article?.Title" placeholder="请输入文章标题..."></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" style="width:100px">内容摘要</label>
+                            <div class="col-md-10">
+                                <textarea class="form-control" id="Abstract" name="Abstract" rows="4" placeholder="请输入内容摘要...">@Model.Article?.Abstract</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="margin-left:0;padding-left:0;" title="选择文章封面">
+                        <div class="thumbBox mag0 magt3">
+                            <img class="layui-upload-img thumbImg" style="height:130px;width:100%;" id="ArticleCover" src="@(Model.Article != null ? Model.Article?.Cover : "../images/uploadDefault.jfif")">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" style="width:100px">文章内容</label>
+                    <div class="col-md-10">
+                        <div class="rich-text-area" id="RichTextArea">
+                            @Html.Raw(Model.Article?.Content)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="col-md-12" for="example-select">文章分类</label>
+                    <div class="col-md-12">
+                        <select class="form-control" id="CategoryId" name="CategoryId">
+                            @{
+                                var cate = ViewBag.Categories as List<CategoryVM>;
+                                if (cate.Count <= 0)
+                                {
+                                    <option value="">暂时没有添加任何分类！</option>
+                                }
+                                else
+                                {
+                                    foreach (var item in cate)
+                                    {
+                                        if (Model.Article != null)
+                                        {
+                                            if (Model.Article.CategoryId == item.Id)
+                                            {
+                                                <option value="@item.Id" selected>@item.Name</option>
+
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:30px;">
+                    <label class="col-md-12">全部标签（ <a href="javascript:" class="add-label" data-type="2"> +添加标签</a>）</label>
+                    <div class="col-md-12" id="AllLabels">
+                        @{
+                            var labels = ViewBag.Labels as List<LabelVM>;
+                            if (labels.Count <= 0)
+                            {
+                                <h5>暂无标签，可以点击上方添加标签新建标签</h5>
+                            }
+                            else
+                            {
+                                foreach (var item in labels)
+                                {
+                                    <label class="checkbox-inline"><input type="checkbox" name="Label" value="@item.Id">@item.Name</label>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:30px;">
+                    <label class="col-md-12">文章标签（ <a href="javascript:" class="add-label" data-type="2"> +添加标签</a>）</label>
+                    <div class="col-md-12" id="ArticleLabels">
+                        @{
+                            if (Model.Article != null)
+                            {
+                                if (Model.LabelsVM.Count > 0)
+                                {
+                                    foreach (var item in Model.LabelsVM)
+                                    {
+                                        <label class="checkbox-inline"><input type="checkbox" name="Label" value="@item.Id" checked>@item.Name</label>
+                                    }
+                                }
+                                else
+                                {
+                                    <h5 style="color:red;">当前文章没有标签！</h5>
+                                }
+
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:30px;">
+                    <label class="col-md-12">版权相关</label>
+                    <div class="col-md-6">是否原创</div>
+                    <div class="col-md-6">
+                        <label class="lyear-switch switch-solid switch-primary">
+                            @if (Model.Article != null)
+                            {
+                                <input type="checkbox" name="IsOwn" @(Model.Article.IsOwn ? "checked" : "")>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="IsOwn" checked>
+                            }
+                            <span></span>
+                        </label>
+                    </div>
+                    <div class="col-md-12">版权描述</div>
+                    <div class="col-md-12">
+                        <textarea class="form-control" id="IsNotOwnDesctiption" name="IsNotOwnDesctiption" rows="4" placeholder="请输入版权信息...">@(!string.IsNullOrEmpty(Model.Article?.IsNotOwnDesctiption)?Model.Article?.IsNotOwnDesctiption: "若无特殊注明，本文皆为本站原创，转载请保留文章出处。")</textarea>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:30px;">
+                    <label class="col-md-12">文章发布</label>
+                    <div class="col-md-6">首页推荐</div>
+                    <div class="col-md-6">
+                        <label class="lyear-switch switch-solid switch-primary">
+                            @if (Model.Article != null)
+                            {
+                                <input type="checkbox" name="IsRecommend" @(Model.Article.IsRecommend ? "checked" : "")>
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="IsRecommend" checked>
+                            }
+                            <span></span>
+                        </label>
+                    </div>
+                    <div class="col-md-12" style="margin-top:30px;">
+                        <button style="width:100%;" class="btn btn-primary" type="button" id="AddArticleBtn">立即发布</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script src="~/lib/layui/layui.js"></script>
+    <script>
+        window.onload = function () {
+            var E = window.wangEditor
+            var editor = new E('#RichTextArea');
+
+            // 配置服务器端地址
+            editor.customConfig.uploadImgServer = '@Url.Action("Upload", "File")';
+
+            editor.create();
+            layui.use(['element', 'laypage', 'layer', 'form', 'upload'], function () {
+                var element = layui.element,
+                    layer = layui.layer,
+                    form = layui.form,
+                    upload = layui.upload,
+                    laypage = layui.laypage;
+
+                $("#AddArticleBtn").click(function () {
+
+                    var data = $("form[name=AddArticleForm]").serializeJson();
+                    console.log(data);
+                    $.ajax({
+                        url: '/Admin/AddArticle',
+                        type: 'post',
+                        data: {
+                            IsNew: data.IsNew,
+                            Article: {
+                                Id: data.ArticleId,
+                                Title: data.Title,
+                                Abstract: data.Abstract,
+                                Content: editor.txt.html(),
+                                IsOwn: data.IsOwn === "on" ? true : false,
+                                IsNotOwnDesctiption: data.IsNotOwnDesctiption,
+                                IsRecommend: data.IsRecommend === "on" ? true : false,
+                                Cover: $("#ArticleCover").attr("src")
+                            },
+                            CategoryId: data.CategoryId,
+                            Labels: data.Label,
+                        },
+                        dataType: 'json',
+                        success: function (res) {
+                            alert(res.msg);
+                            if (res.code === 200 && res.status) {
+                                window.location.href = "/Admin/Articles";
+                            }
+                        }
+                    });
+                });
+
+                upload.render({
+                    elem: '.thumbBox',
+                    url: '@Url.Action("Upload", "File")',
+                    method: "post",
+                    data: { ObjectId: $("input[name=ArticleId]").val(), IsRich: false },
+                    accept: "images",
+                    done: function (res, index, upload) {
+                        console.log(res);
+                        console.log(index);
+                        console.log(upload);
+                        if (res.status && res.code === 200) {
+                            $('.thumbBox img').attr('src', res.url);
+                        } else {
+                            console.log(res.msg)
+                        };
+                    }
+                });
+
+                function checkHasCate() {
+                    $.ajax({
+                        url: "/Admin/GetCategoriesCount",
+                        type: "post",
+                        dataType: "json",
+                        success: function (res) {
+                            console.log(res)
+                            if (res <= 0) {
+                                alert("当前未添加文章分类，请先添加文章分类!")
+                            }
+                        },
+                        error: function (err) {
+
+                        }
+                    });
+                }
+                function formTemplate() {
+
+                    return `
+                                    <form class="layui-form layui-form-pane" action="" lay-filter="SaveForm" style="padding: 30px;box-sizing: content-box;overflow: hidden;">
+                                                    <input type="hidden" name="Id" value="">
+                                                     <div class="layui-form-item">
+                                                        <label class="layui-form-label">标签名称</label>
+                                                        <div class="layui-input-block">
+                                                          <input type="text" name="Name" value="" required lay-verify="required" placeholder="请输入标签名称" autocomplete="off" class="layui-input">
+                                                        </div>
+                                                      </div>
+                                                    <div class="layui-form-item" style="">
+                                                        <div class=" text-center">
+                                                          <button type="submit" id="SaveBtn" class="layui-btn" lay-submit="" lay-filter="SaveBtn">保存提交</button>
+                                                        </div>
+                                                      </div>
+                                                </form>
+
+                             `;
+                }
+
+                function addLabel() {
+                    $(".add-label").off("click").on("click", function () {
+                        var type = $(this).data('type');
+                        layer.open({
+                            type: 1,
+                            title: "添加文章标签",
+                            area: ['450px', '220px'], //宽高
+                            content: formTemplate(),
+                            success: function () {
+                                form.render();
+                                addLabelSave(type);
+                            }
+                        });
+                    })
+                }
+                function addLabelSave(type) {
+                    form.on("submit(SaveBtn)", function (data) {
+                        console.log(data.field)
+                        $.ajax({
+                            url: "/Admin/AddOrEditLabel",
+                            type: "post",
+                            data: data.field,
+                            dataType: "json",
+                            success: function (res) { 
+                                if (res.status) {
+                                    layer.closeAll();
+                                    if (type === 1) {
+                                        $("#AllLabels h5").remove();
+                                        $("#AllLabels").append(`<label class="checkbox-inline"><input type="checkbox" name="Label" value="${res.data.id}">${res.data.name}</label>`);
+                                    } else {
+                                        $("#ArticleLabels h5").remove();
+                                        $("#ArticleLabels").append(`<label class="checkbox-inline"><input type="checkbox" name="Label" checked value="${res.data.id}">${res.data.name}</label>`);
+                                    }
+                                    form.render();
+                                } else {
+                                    alert(res.msg);
+                                }
+                            },
+                            fail: function () {
+                                alert(res.msg);
+                            }
+                        })
+
+                        return false;
+                    });
+                }
+                addLabel();
+                checkHasCate();
+            });
+        };
+    </script>
+
+
+}

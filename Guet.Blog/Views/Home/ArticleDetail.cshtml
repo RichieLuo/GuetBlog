@@ -1,0 +1,340 @@
+﻿@using Guet.ViewModels.Blogs
+@using Guet.ViewModels.Common
+@model DataResultViewModel<ArticleVM>
+
+@{
+    Layout = "_layoutIndex";
+    ViewData["Title"] = Model.Data?.Title;
+}
+<title>@Model.Data?.Title</title>
+<meta name="description" content="@Model.Data?.Abstract" />
+<section class="article-container container">
+    <div class="layui-row">
+        <div class="layui-col-md9 article-left">
+            <div class="article-left-container">
+                <div class="article-nav-tips layui-row">
+                    <div class="layui-col-md8">
+                        <span class="layui-breadcrumb">
+                            <a href="/">首页</a>
+                            <a href="/Home/Category/@Model.Data?.CategoryId">@(string.IsNullOrEmpty( Model.Data?.Category.Name)?"该文章没有进行分类": Model.Data?.Category.Name)</a>
+                            <a><cite style="font-weight:bold;">@Model.Data?.Title</cite></a>
+                        </span>
+                    </div>
+                    <div class="layui-col-md4 text-right">
+                        <a href="/Home/Articles" id="BackToList" class="layui-btn layui-btn-primary layui-btn-xs"><i class="layui-icon">&#xe65c;</i>返回列表</a>
+                        <button type="button" id="ToggleRight" class="layui-btn layui-btn-primary layui-btn-xs" title="隐藏侧边栏"><i class="layui-icon">&#xe66b;</i>隐藏侧边栏</button>
+                    </div>
+                </div>
+                <div class="article-head">
+                    <h3 class="article-title">@(Model.Data?.Title??"未找到该文章")</h3>
+                    <div class="article-description">
+                        <span>
+                            发布时间：
+                            <span class="article-time-ago">@Model.Data?.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                        </span>
+                        <span class="display-none">
+                            修改时间：
+                            <span class="article-time-ago">@Model.Data?.UpdateTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                        </span>
+                        <span>
+                            浏览次数：
+                            <span class="article-visite-count">@Model.Data?.VisitCount</span>
+                        </span>
+                    </div>
+                    <hr class="article-line">
+                </div>
+                <div class="article-content">
+                    <div id="BlogEditorContent">
+                        @Html.Raw(Model.Data?.Content)
+                    </div>
+                </div>
+                <ul class="article-likes">
+                    <!-- 显示：文章点赞、踩、打赏区域 -->
+                    <li class="layui-btn layui-btn-danger" id="ArticleLike" title="点赞">
+                        <i class="layui-icon layui-icon-praise"></i>赞 <span class="article-like-count">@Model.Data?.LikeCount</span>
+                    </li>
+                    <li class="blog-radius article-like-reward" id="ArticleReward" title="打赏">
+                        <button type="button" class="layui-btn bg-blue blog-radius">赏</button>
+                    </li>
+                    <li href="#GoArticleShare" class="layui-btn layui-btn-warm " id="ArticleShare" title="分享">
+                        <a href="javascript:" class="bshareDiv"></a>
+                        <span class="article-share-text"><i class="layui-icon layui-icon-share"></i>分享</span>
+                    </li>
+                    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#uuid=&amp;style=10&amp;bgcolor=Orange&amp;ssc=false"></script>
+                </ul>
+                <div class="article-about-copyright">
+                    <span class="copyright-tip">版权信息</span>
+                    <ul class="article-labels">
+                        <li><i class="layui-icon layui-icon-note"></i><span>本文标签</span>：</li>
+                        @foreach (var item in Model.Data?.Labels)
+                        {
+                            <li><a href="/Home/Labels/@item.Id" title="@item.Name">@item.Name</a></li>
+                        }
+                    </ul>
+                    <p><i class="layui-icon layui-icon-flag"></i><span>版权声明</span>：@Model.Data?.IsNotOwnDesctiption</p>
+
+                </div>
+                <div class="article-about-recommend">
+                    <span class="recommend-tip">文章推荐</span>
+                    <ul class="recommend-artciles">
+                        @foreach (var item in ViewBag.RecommendArticles as List<ArticleVM>)
+                        {
+                            <li>
+                                <a href="/Home/ArticleDetail/@item.Id" title="@item.Title">
+                                    <span class="time">@item.CreateTime.ToString("yyyy-MM-dd")</span>
+                                    <img src="@item.Cover" alt="">
+                                    <h5>@item.Title</h5>
+                                </a>
+                            </li>
+                        }
+                        @*<li>
+                                <a href="/Home/ArticleDetail/111" title="文章标题">
+                                    <span class="time">2020-03-10</span>
+                                    <img src="~/images/main/article_image_001.jpg" alt="">
+                                    <h5>文章标题</h5>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Home/ArticleDetail/111" title="文章标题">
+                                    <span class="time">2020-03-10</span>
+                                    <img src="~/images/main/article_image_002.jpg" alt="">
+                                    <h5>文章标题</h5>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Home/ArticleDetail/111" title="文章标题">
+                                    <span class="time">2020-03-10</span>
+                                    <img src="~/images/main/article_image_003.png" alt="">
+                                    <h5>文章标题</h5>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Home/ArticleDetail/111" title="文章标题">
+                                    <span class="time">2020-03-10</span>
+                                    <img src="~/images/main/article_image_002.jpg" alt="">
+                                    <h5>文章标题</h5>
+                                </a>
+                            </li>*@
+                    </ul>
+                </div>
+                <div class="article-idcard hiden">
+                    显示：博主相关信息和站点文章统计等
+                </div>
+                <div class="article-comment-area" data-articleid="@Model.Data?.Id">
+                    <h3 class="comment-title"><i class="layui-icon layui-icon-edit"></i> 发表评论</h3>
+                    <form class="layui-form  layui-form-pane comment-form" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-row">
+                                <div class="layui-col-md4">
+                                    <input type="text" name="NickName" required lay-verify="required" placeholder="名称（必填）" autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="layui-col-md4">
+                                    <input type="text" name="EMail" required lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="layui-col-md4">
+                                    <input type="text" name="SiteUrl" required lay-verify="required" placeholder="http://" autocomplete="off" value="http://aaaaaaaaa" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="layui-form-item layui-form-text">
+                                <label class="layui-form-label">快捷回复</label>
+                                <div class="layui-input-block">
+                                    <textarea name="Content" placeholder="和谐网络 文明上网 理性发言！O(∩_∩)O~~" class="layui-textarea"></textarea>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="layui-input-inline">
+                                    <button class="layui-btn" lay-submit lay-filter="CommentBtn" data-level="1">发表评论</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="article-comments">
+                    <h3 class="comment-title"><i class="layui-icon layui-icon-dialogue"></i> 评论列表</h3>
+                    <ul class="article-comment-list level1">
+
+                        @{
+                            var comments = ViewBag.CommentsData as List<CommentVM>;
+                            if (comments.Count <= 0)
+                            {
+                                <li class="article-comment-item not-comments text-center">暂无任何评论内容Ծ‸Ծ</li>
+                            }
+                            else
+                            {
+                                string indentityName = string.Empty;
+                                string indentityNameColor = string.Empty;
+                                foreach (var comment in comments)
+                                {
+                                    if (comment.IsAdmin)
+                                    {
+                                        indentityName = "博主";
+                                        indentityNameColor = "identity-admin";
+                                    }
+                                    else
+                                    {
+                                        indentityName = "游客";
+                                        indentityNameColor = "";
+                                    }
+
+                                    <li class="article-comment-item">
+                                        <div class="layui-row">
+                                            <div class="layui-col-md1">
+                                                <img class="blog-radius comments-user-avatar" src="@comment.Avatar" alt="">
+                                            </div>
+                                            <div class="layui-col-md11 comments-details">
+                                                <div class="comments-user-info">
+                                                    <span class="comments-user-identity @indentityNameColor layui-btn layui-btn-xs">@indentityName</span>
+                                                    <a class="comments-user-nickname" href="javascript:" title="@comment.NickName">@comment.NickName</a>
+                                                    @if (comment.CanDelete)
+                                                    {
+                                                        <button type="button" class="layui-btn layui-btn-xs layui-btn-danger comments-delete-btn" data-commentid="@comment.Id" data-level="2">删除</button>
+                                                    }
+                                                    <button type="button" class="layui-btn layui-btn-xs comments-reply-btn" data-parentid="@comment.Id" data-userid="@comment.UserId" data-nickname="@comment.NickName" data-level="2">回复</button>
+                                                </div>
+                                                <div class="comment-item-content">@comment.Content</div>
+                                                <span class="article-time-ago">@comment.CTime</span>
+                                                <ul class="article-comment-list level2 border-line @(comment.Children.Count<=0?"display-none":"")">
+                                                    @foreach (var item in comment.Children)
+                                                    {
+                                                        if (item.IsAdmin)
+                                                        {
+                                                            indentityName = "博主";
+                                                            indentityNameColor = "identity-admin";
+                                                        }
+                                                        else
+                                                        {
+                                                            indentityName = "游客";
+                                                            indentityNameColor = "";
+                                                        }
+                                                        <li class="article-comment-item">
+                                                            <div class="layui-row">
+                                                                <div class="layui-col-md12 comments-details">
+                                                                    <div class="comments-user-info">
+                                                                        <span class="comments-user-identity @indentityNameColor layui-btn layui-btn-xs">@indentityName</span>
+                                                                        <a class="comments-user-nickname" href="javascript:" title="@item.NickName">@item.NickName</a>
+                                                                        @if (item.CanDelete)
+                                                                        {
+                                                                            <button type="button" class="layui-btn layui-btn-xs layui-btn-danger comments-delete-btn" data-commentid="@item.Id" data-level="3">删除</button>
+                                                                        }
+                                                                        <button type="button" class="layui-btn layui-btn-xs comments-reply-btn" data-parentid="@comment.Id" data-userid="@item.UserId" data-nickname="@item.NickName" data-level="3">回复</button>
+                                                                    </div>
+                                                                    <div class="comment-item-content">
+                                                                        @item.Content
+                                                                    </div>
+                                                                    <span class="article-time-ago">@item.CTime</span>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    }
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                }
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md3 article-right">
+            <div class="article-right-content">
+                @await Component.InvokeAsync("LabelsVC");
+            </div>
+        </div>
+    </div>
+    <div class="blog-editor">
+        <div id="BlogEditor"></div>
+    </div>
+
+</section>
+
+
+@section Scripts{
+    <script>
+        window.onload = function () {
+
+            layui.use(['element', 'layer'], function () {
+                let element = layui.element,
+                    layer = layui.layer;
+
+                //后台使用
+                const _blogArticleEditor = {
+                    render: function (options) {
+                        let _this = this,
+                            _options = {
+                                isDialog: false,
+                                element: '',
+                                width: '1200px',
+                                height: '450px'
+                            },
+                            E = window.wangEditor;
+                        $.extend(_options, options);
+
+                        if (_options.isDialog) {
+                            _options.element = '#BlogArticleEditor' + new Date().getTime()
+                            layer.open({
+                                type: 1,
+                                title: '文章富文本编辑器',
+                                area: [_options.width, _options.height],
+                                id: 'BlogArticleEditor',
+                                skin: 'BlogArticleEditor', //没有背景色
+                                shade: 0,
+                                maxmin: true,
+                                content: `
+                                                                                         <div id="${ _options.element.replace('#', '')}"><!-- 富文本编辑器 --></div>
+                                                                                                                `,
+                                success: function (layero) {
+                                    _this.binds(_this.editor(_options));
+                                }
+                            });
+                            console.log(1)
+                        } else {
+                            console.log(2)
+                            _this.binds(_this.editor(_options));
+                        }
+                        return _options;
+                    },
+                    editor: function (options) {
+                        let _options = {
+                            isDialog: false,
+                            element: '',
+                            uploadImgServer: '/upload'
+                        },
+                            E = window.wangEditor;
+                        $.extend(_options, options);
+                        let editor = new E(_options.element);
+                        // 配置服务器端地址
+                        if (_options.uploadImgServer) {
+                            editor.customConfig.uploadImgServer = _options.uploadImgServer;
+                        }
+                        editor.create();
+                        _options.editor = editor;
+                        return _options;
+                    },
+                    binds: function (options) {
+                        let _parseBtn = `
+                           <div style="text-align: center;margin: 20px 0;">
+                         <button type="button" class="btn btn-success" id="ParseHtml">将富文本内容转成html</button>
+                    </div>
+                                                                                                        `;
+                        $(options.element).after(_parseBtn);
+                        $('#ParseHtml').off('click').on('click', function () {
+                            $('#BlogEditorContent').html(options.editor.txt.html())
+                        });
+                    },
+                    init: function (options) {
+                        this.render(options);
+                    }
+                };
+                //_blogArticleEditor.init({
+                //    isDialog: true,
+                //    element: '#BlogEditor',
+                //    width: '800px',
+                //});
+            });
+        }
+    </script>
+}

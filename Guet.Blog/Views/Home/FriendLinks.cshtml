@@ -1,0 +1,162 @@
+﻿@{
+    Layout = "_LayoutIndex";
+    ViewData["Title"] = "友情链接";
+}
+@using Guet.ViewModels.Site;
+@using Guet.ViewModels.Common;
+@model DataResultViewModel<List<FriendLinkVM>>; 
+<div class="container friend-links ">
+    <div class="layui-row">
+        <div class="layui-col-md9 bg-white" style="padding:20px;box-sizing:border-box;position:relative;">
+            <a href="javascript:" style="position:absolute;right:20px;" id="FriendLinksApplyBtn" title="申请友链">+申请友链</a>
+            <h4 style="font-weight:700;width: 100px; padding-bottom: 10px; margin-bottom:10px;text-align:center; border-bottom: 2px solid var(--theme-color-dark);">友链申请说明</h4>
+            <div class="friend-links-description" style="margin-bottom:50px;">
+                <div class="blue" style="list-style-type: none; box-sizing: border-box; font-size: 12px; font-family: 'Lucida Console'; color: #1bb3f0; margin: 0 0 20px; border-radius: 2px; border: #8accff 1px solid; padding: 10px 30px 10px 30px;"><span style="box-sizing: border-box; font-family: 'Microsoft YaHei', 微软雅黑, 'Trebuchet MS', Arial, Verdana, Tahoma, sans-serif; font-size: 14px;">❤  拒绝推广类广告网站，抵制一切非法网站淫秽网站等；</span><br style="box-sizing: border-box;"><span style="font-size: 14px;"> ❤ 本站所加的友情链接，如发现其失效持续超过一周，将直接取消贵链接，如果恢复，请留言</span><br style="box-sizing: border-box;"><span style="font-size: 14px;"> ❤ 申请之前请先提前对本站博客做好友情链接</span><br style="box-sizing: border-box;"><span style="font-size: 14px;"> ❤ 本博客只提供文字友链不提供LOGO友链</span><br style="box-sizing: border-box;"><span style="font-size: 14px;"> ❤ 未受到搜索引擎惩罚，即在百度、Google中能搜索到贵站</span><br style="box-sizing: border-box;"><span style="font-size: 14px;"> ❤ 我们只交换首页友情链接,非首页链接申请不通过(个别除外)</span><br style="box-sizing: border-box;"><span style="font-size: 14px;"> ❤ 要求贵站页面设计整洁，友情链接清晰不乱，并且链接保持在页面首页，内容健康，不接受广告联盟、营销网站之类站点的链接，网站内容符合中华人民共和国法律，具有顶级域名，建站时间大于半年，制作不能太粗糙，无恶意代码。(个别除外)</span><br style="box-sizing: border-box;"><span style="font-size: 14px;"> ❤ 网站至少有一个搜索引擎要收录200+(个别除外)</span><br style="box-sizing: border-box;"><span style="font-size: 14px;"> ❤ 博客搭建至少半年以上</span><br style="box-sizing: border-box;"><span style="font-size: 14px;"> ❤ 没有满足以上条件的请勿打扰！</span></div>
+            </div>
+            <h4 style="font-weight:700;width:80px; padding-bottom: 10px; text-align:center; border-bottom: 2px solid var(--theme-color-dark);">友情链接</h4>
+            <ul class="links-list" style="overflow:hidden;margin:20px 0;">
+                @if (Model.Data.Count <= 0)
+                {
+                    <li class="links-item" style="width:100%;box-sizing:border-box;padding:10px 20px; height:80px;line-height:80px;text-align:center;">
+                        <h4 style="color: #999">还没有任何友情链接，快来申请吧！</h4>
+                    </li>
+                }
+                else
+                {
+                    @foreach (var item in Model.Data)
+                    {
+                        if (item.IsEnable)
+                        {
+                            <li class="links-item" style="float:left;width:25%;box-sizing:border-box;padding:10px; ">
+                                <div style="border:1px solid #e6e6e6;padding:5px 10px;padding-top:12px;text-align: center;border-radius: 2px;">
+                                    <a style="display:inline-block;width:100%;" href="@item.Url" target="_blank" title="@item.Name">
+                                        <div class="cover-container" style="width:100%;height:40px;overflow:hidden;">
+                                            <img style="width:100%;height:40px;" src="@item.Cover" alt="@item.Name" />
+                                        </div> 
+                                        <p class="text-substr" style="width:100%;color:#555;margin-top:5px;">@item.Name</p>
+                                    </a>
+                                    @*<a style="display:inline-block;width:100%;" href="@item.Url" target="_blank" title="@item.Name">
+                                            <img style="width:25px;height:25px;border-radius:50%;" src="@item.Cover" alt="@item.Name" />
+                                            <span>@item.Name</span>
+                                        </a>*@
+                                </div>
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+            <div class="display-none">
+
+
+                <h4 style="font-weight:700;width: 80px; padding-bottom: 10px;text-align:center; border-bottom: 2px solid var(--theme-color-dark);">暂停链接</h4>
+                <ul class="links-list" style="overflow: hidden;">
+                    @if (Model.Data.FirstOrDefault(x => x.IsEnable == true) == null)
+                    {
+                        <li class="links-item" style="width:100%;box-sizing:border-box;padding:10px 20px; height:80px;line-height:80px;text-align:center;">
+                            <h4 style="color: #999">还没有任何友情链接被暂停！</h4>
+                        </li>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model.Data)
+                        {
+                            if (item.IsEnable)
+                            {
+                                <li class="links-item" style="float:left;width:25%;box-sizing:border-box;padding:10px 20px; ">
+                                    <div style="border:1px solid #e6e6e6;padding:10px;">
+                                        <a style="display:inline-block;width:100%;" href="javascript:">
+                                            <img style="width:25px;height:25px;border-radius:50%;" src="@item.Cover" alt="@item.Name" />
+                                            <span>@item.Name</span>
+                                        </a>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="layui-col-md3">
+            <div class="article-right-content">
+                @await Component.InvokeAsync("LabelsVC");
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts{
+    <script>
+
+        window.onload = function () {
+
+
+            layui.use(['element', 'form', 'layer'], function () {
+                var element = layui.element,
+                    form = layui.form,
+                    layer = layui.layer;
+                $("#FriendLinksApplyBtn").off("click").on("click", function () {
+                    layer.open({
+                        type: 1,
+                        title: "申请友情链接",
+                        area: ['480px', '320px'], //宽高
+                        content: `
+                                        <form class="layui-form layui-form-pane" action="" lay-filter="ApplyForm" style="padding: 30px;box-sizing: content-box;overflow: hidden;">
+                                             <div class="layui-form-item">
+                                                <label class="layui-form-label">网站名称</label>
+                                                <div class="layui-input-block">
+                                                  <input type="text" name="Name" required lay-verify="required" placeholder="请输入网站名称" autocomplete="off" class="layui-input">
+                                                </div>
+                                              </div>
+                                                <div class="layui-form-item">
+                                                <label class="layui-form-label">网站地址</label>
+                                                <div class="layui-input-block">
+                                                  <input type="text" name="Url" required lay-verify="required" placeholder="请输入网站地址" autocomplete="off" class="layui-input">
+                                                </div>
+                                              </div>
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">网站LOGO</label>
+                                                <div class="layui-input-block">
+                                                  <input type="text" name="Cover" required lay-verify="required" placeholder="请输入网站LOGO(直接填写图片地址)" autocomplete="off" class="layui-input">
+                                                </div>
+                                              </div>
+                                            <div class="layui-form-item" style="">
+                                                <div class=" text-center">
+                                                  <button type="submit" id="ApplyFriendLink" class="layui-btn" lay-submit="" lay-filter="applyfriendlink">立即提交</button>
+                                                </div>
+                                              </div>
+                                        </form>
+                                    `,
+                        success: function () {
+                            form.render();
+                            submitApply();
+                        }
+                    });
+
+
+                })
+                function submitApply() {
+                    //监听提交
+                    form.on('submit(applyfriendlink)', function (data) {
+                        $.ajax({
+                            url: '/Home/ApplyFriendLink',
+                            data: data.field,
+                            dataType: 'json',
+                            success: function (res) {
+                                if (res.status) {
+                                    layer.closeAll();
+                                }
+                                alert(res.msg);
+                            }
+                        })
+
+                        return false;
+                    });
+
+                }
+            });
+        }
+    </script>
+
+}

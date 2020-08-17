@@ -1,0 +1,36 @@
+.home-footer {
+    background: #373D41;
+    width: 100%;
+    border-top: #00C1DE 10px solid;
+    padding: 30px 0;
+    margin-top: 15px;
+    color: #73777a;
+    font-size: 14px;
+    box-sizing: border-box;
+    min-width: 1200px;
+}
+
+.footer-qrcode {}
+
+.footer-qrcode img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.footer-notice {
+    color: #00C1DE;
+    margin-top: 0;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.footer-bei-an {
+    color: #73777a;
+}
+
+.footer-bei-an:hover {
+    color: #00C1DE;
+    font-weight: 700;
+    text-decoration: none;
+}

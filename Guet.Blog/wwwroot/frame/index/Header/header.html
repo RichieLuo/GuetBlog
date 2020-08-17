@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>公共头部</title>
+    <link rel="stylesheet" href="../libs/layui/css/layui.css">
+    <link rel="stylesheet" href="../Common/base.css">
+    <link rel="stylesheet" href="./header.css">
+</head>
+
+<body>
+    <header class="home-header">
+        <div class="container">
+            <div class="layui-row">
+                <div class="layui-col-md2">
+                    <a class="header-title" href="/" title="个人博客标题">
+                        <span id="TitleText" class="title-text">个人博客标题</span>
+                        <img id="TitleImage" class="title-logo" src="../images/header/logo.png" alt="">
+                    </a>
+                </div>
+                <div class="layui-col-md7">
+                    <div class="layui-row header-navs nav-list text-center">
+                        <div class="layui-col-md2 nav-item" data-name="home" data-height="1940"><a href="javascript:" class="link" title="">首页</a></div>
+                        <div class="layui-col-md2 nav-item" data-name="article" data-height="2000"><a href="javascript:" class="link" title="">博文</a></div>
+                        <div class="layui-col-md2 nav-item" data-name="category" data-height="600"><a href="javascript:" class="link" title="">分类</a></div>
+                        <div class="layui-col-md2 nav-item" data-name="friendship" data-height="600"><a href="javascript:" class="link" title="">友情链接</a></div>
+                        <div class="layui-col-md2 nav-item" data-name="about" data-height="810"><a href="javascript:" class="link" title="">关于我</a></div>
+                        <div class="layui-col-md2 nav-item" data-name="message" data-height="600"><a href="javascript:" class="link" title="">留言</a></div>
+                    </div>
+                </div>
+                <div class="layui-col-md3">
+                    <div class="header-user layui-row">
+                        <div class="layui-col-md10 text-center to-login-btns nav-list">
+                            <!-- <a id="ToLoginBtn" class="to-login" href="../Login/login.html" target="_blank" title="登录">登录</a> -->
+                            <a id="ToLoginBtn" class="to-login nav-item" data-name="login" data-height="594" href="javascript:" title="登录">登录</a>
+                            <span class="split-line">丨</span>
+                            <a class="to-register nav-item" data-name="login" data-height="594" href="javascript:" target="_blank" title="注册">注册</a>
+                        </div>
+                        <div class="layui-col-md10 has-login-btns">
+                            <div class="layui-row">
+                                <div class="layui-col-md5">
+                                    <!-- <a class="has-login-nickname" href="/User/Index" title="个人中心"> -->
+                                    <a class="has-login-nickname" href="javascript:" data-name="user" data-height="600" title="个人中心">
+                                        <img class="has-login-avatar" src="../images/header/avatar_002.jpg" alt="">
+                                    </a>
+                                </div>
+                                <div class="layui-col-md5">
+                                    <!-- <a class="has-login-nickname" href="/User/Index" title="个人中心">  -->
+                                    <a class="has-login-nickname" href="javascript:" data-name="user" data-height="600" title="个人中心">
+                                        提拉米苏的呆猫 
+                                    </a>
+                                </div>
+                                <div class="layui-col-md2">
+                                    <a id="ToLogoutBtn" class="text-danger has-login-to-logout" href="javascript:" title="注销操作">注销</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md2 text-right">
+                            <a class="show-search" id="ShowSearchBtn" title="搜索" href="javascript:">
+                                <i class="layui-icon layui-icon-search"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="home-search container" id="HomeSearch">
+        <form class="input-group search-container">
+            <div class="layui-form-item">
+                <div class="layui-input-inline">
+                    <input type="text" name="HomeSearchInput" id="HomeSearchInput" placeholder="搜索文章..." autocomplete="off" class="layui-input home-search-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux blog-search-btns">
+                    <button id="HomeToSearchBtn" class="layui-btn  home-search-btn" title="立即搜索" type="button">搜 索</button>
+                </div>
+            </div>
+        </form>
+        <span id="HomeCloseSearchBtn" class="close-search-container" title="关闭搜索"> +  </span>
+    </div>
+
+    <script src="../libs/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <script src="../libs/layui/layui.all.js"></script>
+    <script src="../libs/layer/layer.js"></script>
+    <script src="../Common/base.js"></script>
+    <script src="./header.js"></script>
+
+</body>
+
+</html>

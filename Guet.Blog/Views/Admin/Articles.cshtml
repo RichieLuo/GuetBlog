@@ -1,0 +1,191 @@
+﻿
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "文章列表";
+}
+
+
+<link href="~/lib/layui/css/layui.css" rel="stylesheet" />
+<style>
+    .text-sub-one {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        word-break: break-all;
+        width: 150px;
+        display: inline-block;
+    }
+    .table th {
+        text-align: center;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card" style="position:relative;">
+            <a class="btn btn-xs btn-primary " href="/Admin/AddArticle" style="position:absolute;top:15px;right:15px;" id="AddArticle">+添加文章</a>
+            <ul class="nav nav-tabs page-tabs">
+                <li class="active"><a href="#!">文章管理</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <table class="text-center table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>封面</th>
+                                <th>标题</th>
+                                <th>摘要</th>
+                                <th>分类</th>
+                                <th>标签</th>
+                                <th>推荐</th>
+                                <th>原创</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ListContainer">
+                            <tr>
+                                <td colspan="9">暂无数据</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                        <div class="" id="PaginationContainer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/layui/layui.js"></script>
+    <script>
+        window.onload = function () {
+            function disEnable() {
+                $(".disenable-btn").off("click").on("click", function () {
+                    var msg = $(this).data("en") === 0 ? "确定设为推荐吗？" : "确定取消推荐吗？";
+                    if (confirm(msg)) {
+                        $.ajax({
+                            url: "/Admin/DisRecommend",
+                            type: "post",
+                            data: {
+                                Id: $(this).data("id"),
+                                Enable: $(this).data("en") === 0 ? true : false
+                            },
+                            dataType: "json",
+                            success: function (res) {
+                                alert(res.msg);
+                                if (res.status) {
+                                    initPage();
+                                }
+                            },
+                            fail: function () {
+                                alert(res.msg);
+                            }
+                        })
+                    }
+                });
+            }
+            function deleteData() {
+                $(".delete-btn").off("click").on("click", function () {
+                    if (confirm("确定删除该文章吗？")) {
+                        $.ajax({
+                            url: "/Admin/DeleteArticle",
+                            type: "post",
+                            data: { Id: $(this).data("id") },
+                            dataType: "json",
+                            success: function (res) {
+                                alert(res.msg);
+                                if (res.status) {
+                                    initPage();
+                                }
+                            },
+                            fail: function () {
+                                alert(res.msg);
+                            }
+                        })
+                    }
+                });
+            }
+            function getList(param) {
+                $.ajax({
+                    url: "/Admin/GetArticles",
+                    type: "post",
+                    data: { index: param.curr, limit: param.limit },
+                    dataType: "json",
+                    success: function (res) {
+                        var t = '';
+                        res.data.forEach((item, index) => {
+                            var isRecommend = item.isRecommend ? '<button class="btn btn-xs btn-primary">是</button>' : '<button class="btn btn-xs btn-danger">否</button>';
+                            var isOwn = item.isOwn ? '<button class="btn btn-xs btn-primary">是</button>' : '<button class="btn btn-xs btn-danger">否</button>';
+                            var lockBtn = !item.isRecommend ? `<button class="btn btn-xs btn-warning disenable-btn" data-en="0" data-id="${item.id}">设为推荐</button>` : `<button class="btn btn-xs btn-dark disenable-btn" data-en="1" data-id="${item.id}">取消推荐</button>`;
+                            var labels = '';
+                            item.labels.forEach((item2, index2) => {
+                                labels = labels + item2.name + '  ';
+                            });
+                            //    <th>封面</th>
+                            //    <th>标题</th>
+                            //    <th>摘要</th>
+                            //    <th>分类</th>
+                            //    <th>标签</th>
+                            //    <th>推荐</th>
+                            //    <th>原创</th>
+                            //    <th>操作</th>
+                            t += `<tr">
+                                      <th scope="row">${item.orderNumber}</th>
+                                        <td><img style="width:30px;height:30px;border-radius:5px;" src="${item.cover}" alt=""/></td>
+                                       <td><div class="text-sub-one" title="${item.title}">${item.title}</div></td>
+                                      <td><div class="text-sub-one" title="${item.abstract}">${item.abstract}</div></td>
+                                          <td>${item.category.name}</td>
+                                       <td>${labels}</td>
+                                     <td>${isRecommend}</td>
+                                        <td>${isOwn}</td> 
+                                    <td>
+                                        <a class="btn btn-xs  btn btn-info" href="/Home/ArticleDetail/${item.id}" target="_blank">查看</a>
+                                        <a class="btn btn-xs btn-primary" href="/Admin/AddArticle/${item.id}">编辑</a>
+                                     ${lockBtn}
+                                     <button class="btn btn-xs btn-danger delete-btn" data-id="${item.id}">删除</button>
+                                   </td>
+                                 </tr>
+                             `;
+                        });
+
+                        $("#ListContainer").html(t);
+                        disEnable();
+                        deleteData();
+                    },
+                    fail: function () {
+                        alert(res.msg);
+                    }
+                })
+            };
+            function initPage() {
+                $.ajax({
+                    url: "/Home/GetArticleCount",
+                    type: "post",
+                    dataType: "json",
+                    success: function (res) {
+                        layui.use(['element', 'laypage'], function () {
+                            var element = layui.element,
+                                laypage = layui.laypage;
+                            laypage.render({
+                                elem: 'PaginationContainer',
+                                count: res.count, //从后台获取值
+                                layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+                                jump: function (obj) {
+                                    getList(obj);
+                                }
+                            });
+
+                        })
+                    },
+                    fail: function () {
+                        alert("请求错误");
+                    }
+                })
+
+            }
+            initPage();
+        }
+    </script>
+}

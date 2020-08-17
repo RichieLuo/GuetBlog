@@ -1,0 +1,133 @@
+﻿@using Guet.ViewModels.Site;
+@model SiteSettingVM;
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "基本设置";
+}
+    <style>
+        .layui-upload-file{
+            opacity:0;
+        }
+    </style>
+<div class="admin-site-setting">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <ul class="nav nav-tabs page-tabs">
+                    <li class="active"><a href="#!">基本信息</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <form action="#!" method="post" name="SaveForm" class="edit-form">
+                            <input type="hidden" name="Id" value="@Model.Id" />
+                            <div class="form-group"><label for="Title">网站标题</label><input class="form-control" type="text" id="Title" name="Title" value="@Model.Title" placeholder="请输入站点标题"></div>
+                            <div class="form-group">
+                                <label for="Logo">LOGO图片预览</label>
+                                <div class="input-group">
+                                    <img id="LogoImg" style="width:150px;" src="@Model.Logo" alt="网站LOGO" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Logo">LOGO图片</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="Logo" id="Logo" value="@Model.Logo">
+                                    <div class="input-group-btn"><button class="btn btn-default" id="UploadLOGO" type="button">上传图片</button></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Logo">打赏二维码预览</label>
+                                <div class="input-group">
+                                    <img id="QrCodeImage" style="width:150px;" src="@Model.QrCode" alt="打赏二维码" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Logo">打赏二维码图片</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="QrCode" id="QrCode" value="@Model.QrCode">
+                                    <div class="input-group-btn"><button class="btn btn-default" id="UploadQrCode" type="button">上传图片</button></div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Keywords">站点关键词</label><input class="form-control" type="text" id="Keywords" name="Keywords" value="@Model.Keywords" placeholder="请输入站点关键词">
+                                <small class="help-block">网站搜索引擎关键字</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="Description">站点描述</label><textarea class="form-control" id="Description" rows="5" name="Description" placeholder="请输入站点描述">@Model.Description</textarea>
+                                <small class="help-block">网站描述，有利于搜索引擎抓取相关信息</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="Statistics">统计代码</label><textarea class="form-control" id="Statistics" rows="5" name="Statistics" placeholder="请输入统计代码">@Model.Statistics</textarea>
+                            </div>
+                            <div class="form-group"><label for="Copyright">版权信息</label><input class="form-control" type="text" id="Copyright" name="Copyright" value="@Model.Copyright" placeholder="请输入版权信息"></div>
+                            <div class="form-group"><label for="ICP">备案信息</label><input class="form-control" type="text" id="@Model.ICP" name="ICP" value="@Model.ICP" placeholder="请输入备案信息"></div>
+                            <div class="form-group"><label class="btn-block" for="web_site_status">启用图片LOGO</label><label class="lyear-switch switch-solid switch-primary"><input type="checkbox" name="UseImgLogo" @(Model.UseImgLogo?"checked":"")><span></span></label></div>
+                            <div class="form-group"><button type="button" class="btn btn-primary m-r-5" id="Save">保存修改</button></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts{
+    <script src="~/lib/layui/layui.js"></script>
+    <script>
+        window.onload = function () {
+            $("#Save").off("click").on("click", function () {
+                var _loginData = $("form[name=SaveForm]").serializeJson();
+                console.log(_loginData)
+                _loginData.UseImgLogo = _loginData.UseImgLogo === "on" ? true : false;
+                $.ajax({
+                    url: "/Admin/UpdateSiteSetting",
+                    type: "post",
+                    data: _loginData,
+                    dataType: "json",
+                    success: function (res) {
+                        alert(res.msg);
+                    },
+                    fail: function () {
+                        alert(res.msg);
+                    }
+                })
+            });
+            layui.use("upload", function () {
+                var upload = layui.upload;
+                upload.render({
+                    elem: '#UploadLOGO',
+                    url: '@Url.Action("Upload", "File")',
+                    method: "post",
+                    data: { IsRich: false },
+                    accept:"images",
+                    done: function (res, index, upload) {
+                        if (res.status && res.code === 200) {
+                            $('#LogoImg').attr('src', res.fullUrl);
+                            $('input[name=Logo]').val(res.fullUrl);
+                        } else {
+                            console.log(res.msg)
+                        };
+                    }
+                });
+
+                  upload.render({
+                      elem: '#UploadQrCode',
+                        url: '@Url.Action("Upload", "File")',
+                        method: "post",
+                        data: { IsRich: false },
+                        accept:"images",
+                        done: function (res, index, upload) {
+                            if (res.status && res.code === 200) {
+                                $('#QrCodeImage').attr('src', res.fullUrl);
+                                $('input[name=QrCode]').val(res.fullUrl);
+                            } else {
+                                console.log(res.msg)
+                            };
+                        }
+                });
+            });
+        }
+    </script>
+}

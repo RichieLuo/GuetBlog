@@ -1,0 +1,110 @@
+﻿
+@model LabelsVCViewModels;
+
+@{
+    Layout = null;
+}
+
+<div class="home-right-container">
+    <div class="layui-row margin-bottom">
+        <div class="layui-col-md12 padding-lr padding-r-none">
+            <div class="layui-tab layui-tab-brief bg-white">
+                <ul class="layui-tab-title tz-right-tabs no-line">
+                    <li class="layer-tab-item layui-this">打赏博主</li>
+                </ul>
+                <div class="r layui-tab-content">
+                    <div class="layui-tab-item layui-show ">
+                        <ul class=" ">
+                            <li><img style="width:100%" src="@Model.Sinfo.QrCode" alt="打赏博主" /> </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row margin-bottom ">
+        <div class="layui-col-md12 padding-lr padding-r-none">
+            <div class="layui-tab layui-tab-brief bg-white">
+                <ul class="layui-tab-title tz-right-tabs no-line">
+                    <li class="layer-tab-item layui-this">博主推荐</li>
+                </ul>
+                <div class="r layui-tab-content">
+                    <div class="layui-tab-item layui-show ">
+                        <ul class=" ">
+                            <li>
+                                <a href="@Model.Banner.Href" title="@Model.Banner.Title" style="display:inline-block;width:100%;height:100%;position:relative;" target="@(Model.Banner.Target?"_blank":"")">
+                                    <img style="width:100%" src="@Model.Banner.Url" alt="博主推荐" />
+                                    <div style="position:absolute;text-align:center;bottom:0px;background-color:rgba(255,255,255,.5);color:#fff;width:100%;height:30px;line-height:30px;overflow:hidden;">@Model.Banner.Title</div> 
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row margin-bottom">
+        <div class="layui-col-md12 padding-lr padding-r-none">
+            <div class="layui-tab layui-tab-brief bg-white">
+                <ul class="layui-tab-title tz-right-tabs no-line">
+                    <li class="layer-tab-item layui-this">文章分类</li>
+                </ul>
+                <div class="r layui-tab-content">
+                    <div class="layui-tab-item layui-show ">
+                        <ul class="article-right-category">
+                            @foreach (var item in Model.Categories)
+                            {
+                                <li>
+                                    <a class="layui-btn layui-btn-sm layui-btn-primary" href="/Home/Category/@item.Id">@item.Name</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-row margin-bottom">
+        <div class="layui-col-md12 padding-lr padding-r-none">
+            <div class="layui-tab layui-tab-brief bg-white">
+                <ul class="layui-tab-title tz-right-tabs no-line">
+                    <li class="layer-tab-item layui-this">文章标签</li>
+                </ul>
+                <div class="r layui-tab-content">
+                    <div class="layui-tab-item layui-show ">
+                        <ul class="article-right-labels">
+                            @foreach (var item in Model.Labels)
+                            {
+                                <li>
+                                    <a class="layui-btn layui-btn-sm layui-btn-primary" href="/Home/Label/@item.Id">@item.Name</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row margin-bottom display-none">
+        <div class="layui-col-md12 padding-lr padding-r-none">
+            <div class="layui-tab layui-tab-brief bg-white">
+                <ul class="layui-tab-title tz-right-tabs no-line">
+                    <li class="layer-tab-item layui-this">文章归档</li>
+                </ul>
+                <div class="r layui-tab-content">
+                    <div class="layui-tab-item layui-show ">
+                        <ul class="article-right-classification">
+                            @foreach (var item in Model.ArticleArchivings)
+                            {
+                                @*<li>
+                                        <a class="layui-btn layui-btn-sm layui-btn-primary" href="/Home/Label/11111">2020年01月(2)</a>
+                                    </li>*@
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

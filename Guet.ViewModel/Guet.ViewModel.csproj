@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Guet.Common\Guet.Common.csproj" />
+    <ProjectReference Include="..\Guet.DataAccess\Guet.DataAccess.csproj" />
+    <ProjectReference Include="..\Guet.Entities\Guet.Entities.csproj" />
+  </ItemGroup>
+
+</Project>

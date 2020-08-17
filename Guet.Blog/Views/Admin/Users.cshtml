@@ -1,0 +1,199 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "用户列表";
+}
+
+<link href="~/lib/layui/css/layui.css" rel="stylesheet" />
+<style>
+    .table th {
+        text-align: center;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <ul class="nav nav-tabs page-tabs">
+                <li class="active"><a href="#!">用户管理</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active"> 
+                        <table class="text-center table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>头像</th>
+                                    <th>用户名</th>
+                                    <th>昵称</th>
+                                    <th>简介</th>
+                                    <th>状态</th>
+                                    <th>角色</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="UserListContainer">
+                                <tr>
+                                    <td colspan="8">暂无数据</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="text-center">
+                            <div class="" id="PaginationUsers"></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+    @section Scripts{
+        <script src="~/lib/layui/layui.js"></script>
+        <script>
+            window.onload = function () {
+                function resetPassword() {
+                    $(".resetpassword-user").off("click").on("click", function () {
+                        if (confirm("确定重置该用户的密码吗？")) {
+                            $.ajax({
+                                url: "/Admin/ResetPassword",
+                                type: "post",
+                                data: {
+                                    Id: $(this).data("userid"),
+                                    ConfirmNewPassword: "123456"
+                                },
+                                dataType: "json",
+                                success: function (res) {
+                                    alert(res.msg);
+                                    if (res.status) {
+                                        initUserPage();
+                                    }
+                                },
+                                fail: function () {
+                                    alert(res.msg);
+                                }
+                            })
+                        }
+                    });
+                }
+
+                function disEnableUser() {
+                    $(".disenable-user").off("click").on("click", function () {
+                        var msg = $(this).data("en") === 0 ? "确定解除该用户的禁用吗？" : "确定禁用该用户吗";
+                        if (confirm(msg)) {
+                            $.ajax({
+                                url: "/Admin/DisEnableUser",
+                                type: "post",
+                                data: {
+                                    UserId: $(this).data("userid"),
+                                    Enable: $(this).data("en") === 0 ? false : true
+                                },
+                                dataType: "json",
+                                success: function (res) {
+                                    alert(res.msg);
+                                    if (res.status) {
+                                        initUserPage();
+                                    }
+                                },
+                                fail: function () {
+                                    alert(res.msg);
+                                }
+                            })
+                        }
+                    });
+                }
+                function deleteUser() {
+                    $(".delete-user").off("click").on("click", function () {
+                        if (confirm("确定删除该用户吗？")) {
+                            $.ajax({
+                                url: "/Admin/DeleteUser",
+                                type: "post",
+                                data: { Id: $(this).data("userid") },
+                                dataType: "json",
+                                success: function (res) {
+                                    alert(res.msg);
+                                    if (res.status) {
+                                        initUserPage();
+                                    }
+                                },
+                                fail: function () {
+                                    alert(res.msg);
+                                }
+                            })
+                        }
+                    });
+                }
+                function getUsers(param) {
+                    $.ajax({
+                        url: "/Admin/GetUsers",
+                        type: "post",
+                        data: { index: param.curr, limit: param.limit },
+                        dataType: "json",
+                        success: function (res) {
+                            var t = '';
+                            res.data.forEach((item, index) => {
+                                var lock = !item.lockoutEnabled ? '<button class="btn btn-xs btn-primary">正常</button>' : '<button class="btn btn-xs btn-danger">已禁用</button>';
+                                var lockBtn = item.lockoutEnabled ? `<button class="btn btn-xs btn-warning disenable-user" data-en="0" data-userid="${item.id}">解禁</button>` : `<button class="btn btn-xs btn-dark disenable-user" data-en="1" data-userid="${item.id}">禁用</button>`;
+                                var roles = '';
+                                item.roles.forEach((item2, index2) => {
+                                    roles = roles + item2.displayName + "   "
+                                });
+                                var isShowBtn = !item.isAdmin ? `
+                                                                            ${lockBtn}
+                                                                            <button class="btn btn-xs btn-primary resetpassword-user" data-userid="${item.id}">重置密码</button>
+                                                                            <button class="btn btn-xs btn-danger delete-user" data-userid="${item.id}">删除</button>
+                                                                            ` : "";
+                                t += `<tr  class="${item.isAdmin ? "warning" : ""}">
+                                                                        <th scope="row">${item.orderNumber}</th>
+                                                                        <td><img style="width:30px;height:30px;border-radius:5px;" src="${item.avatar}" alt=""/></td>
+                                                                        <td>${item.userName}</td>
+                                                                        <td>${item.nickName}</td>
+                                        <td><div class="text-substr" style="width:200px;" title="${item.nickName}">${item.nickName}</div></td>
+                                                                        <td>${lock}</td>
+                                                                        <td>${roles}</td>
+                                                                        <td>
+                                                                            ${isShowBtn}
+                                                                        </td>
+                                                                    </tr>
+                                                                    `;
+                            });
+
+                            $("#UserListContainer").html(t);
+                            resetPassword();
+                            disEnableUser();
+                            deleteUser();
+                        },
+                        fail: function () {
+                            alert(res.msg);
+                        }
+                    })
+                };
+                function initUserPage() {
+                    $.ajax({
+                        url: "/Admin/GetUsersCount",
+                        type: "post",
+                        dataType: "json",
+                        success: function (res) {
+                            layui.use(['element', 'laypage'], function () {
+                                var element = layui.element,
+                                    laypage = layui.laypage;
+                                laypage.render({
+                                    elem: 'PaginationUsers',
+                                    count: res, //从后台获取值
+                                    layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+                                    jump: function (obj) {
+                                        console.log(obj);
+                                        getUsers(obj);
+                                    }
+                                });
+
+                            })
+                        },
+                        fail: function () {
+                            alert("请求错误");
+                        }
+                    })
+
+                }
+                initUserPage();
+
+            }
+        </script>
+    }

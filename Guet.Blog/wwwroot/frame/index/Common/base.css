@@ -1,0 +1,347 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+    color: #337ab7;
+}
+
+a:hover {
+    color: var(--theme-color-blue2);
+}
+
+body {
+    background: #E9EAED;
+    /* background-color: transparent; */
+    --theme-color-dark: #1c2327;
+    --theme-color-blue: #00c1de;
+    --theme-color-blue2: #12b7de;
+    --theme-color-green: #009688;
+}
+
+.blog-relative {
+    position: relative;
+}
+
+.blog-more {
+    position: absolute;
+    right: 15px;
+    top: 20px;
+    color: #337ab7;
+}
+
+.blog-radius {
+    border-radius: 50%;
+}
+
+.border-line {
+    border: 1px solid #e6e6e6;
+    box-sizing: border-box;
+}
+
+.hiden {
+    display: none;
+}
+
+.border-right {
+    border-right: 1px solid #e6e6e6
+}
+
+
+/* 文字类颜色开始 */
+
+.text-dark {
+    color: var(--theme-color-dark);
+}
+
+.text-blue {
+    color: var(--theme-color-blue);
+}
+
+.text-green {
+    color: var(--theme-color-green);
+}
+
+.text-sm {
+    font-size: 14px;
+}
+
+.text-xs {
+    font-size: 12px;
+}
+
+.text-df {
+    font-size: 16px;
+}
+
+.text-lg {
+    font-size: 20px;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-center {
+    text-align: center;
+}
+
+
+/* 文字类颜色结束 */
+
+
+/* 背景颜色类 开始 */
+
+.bg-white {
+    background-color: white;
+}
+
+.bg-blue {
+    background-color: var(--theme-color-blue);
+}
+
+
+/* 背景颜色类 结束 */
+
+.container {
+    min-width: 1200px;
+    width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* 边距类 开始 */
+
+.display-none {
+    display: none;
+}
+
+.margin-none {
+    margin: 0;
+}
+
+.margin-l-none {
+    margin-left: 0;
+}
+
+.margin-r-none {
+    margin-right: 0;
+}
+
+.margin-t-none {
+    margin-top: 0;
+}
+
+.margin-b-none {
+    margin-bottom: 0;
+}
+
+.margin-tb-none {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.margin-lr-none {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.margin-top {
+    margin-top: 15px;
+}
+
+.margin-top-xs {
+    margin-top: 5px;
+}
+
+.margin-bottom {
+    margin-bottom: 15px;
+}
+
+.margin-left {
+    margin-left: 15px;
+}
+
+.margin-right {
+    margin-right: 15px;
+}
+
+.padding {
+    padding: 10px;
+}
+
+.padding-lr {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.padding-top {
+    padding-top: 10px;
+}
+
+.padding-bottom {
+    padding-bottom: 10px;
+}
+
+.padding-left-m {
+    padding-left: 15px;
+}
+
+.padding-right-m {
+    padding-right: 15px;
+}
+
+.padding-bottom-m {
+    padding-bottom: 15px;
+}
+
+.padding-top-m {
+    padding-top: 15px;
+}
+
+.padding-none {
+    padding: 0;
+}
+
+.padding-l-none {
+    padding-left: 0;
+}
+
+.padding-r-none {
+    padding-right: 0;
+}
+
+.padding-lr-none {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
+/* 边距类 结束 */
+
+
+/* 重新layui 样式 开始 */
+
+.l.layui-tab {
+    padding: 10px 15px;
+}
+
+.r.layui-tab {
+    margin-left: 15px;
+}
+
+.r.layui-tab-content {
+    padding: 0 15px;
+    padding-top: 10px;
+}
+
+.layui-tab {
+    margin: 0;
+    padding: 10px 0;
+}
+
+.layui-laypage .layui-laypage-curr .layui-laypage-em {
+    background-color: var(--theme-color-blue2);
+}
+
+
+/* 重新layui 样式 结束 */
+
+
+/* 网站辅助功能 返回顶部、设置等 开始 */
+
+.web-site-helper {
+    position: fixed;
+    right: 20px;
+    bottom: 50px;
+    width: 40px;
+}
+
+.web-site-helper .back-top {
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    height: 40px;
+    /* line-height: 35px; */
+    cursor: pointer;
+}
+
+.back-top>i {
+    font-size: 16px;
+}
+
+.back-top .back-top-text {
+    font-size: 12px;
+    display: block;
+}
+
+.web-site-helper .setting {
+    background-color: white;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+/* 网站辅助功能 返回顶部、设置等 结束 */
+
+
+/* 文章右侧列表模块 开始*/
+
+
+/* 文章右侧列表模块 结束*/
+
+.article-right-category {
+    overflow: hidden;
+}
+
+.article-right-category li {
+    float: left;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+.article-right-labels {
+    overflow: hidden;
+}
+
+.article-right-labels li {
+    float: left;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+.article-right-labels li a {
+    border: 1px dashed #e6e6e6;
+}
+
+.article-right-classification {
+    overflow: hidden;
+}
+
+.article-right-classification li {
+    width: 50%;
+    float: left;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.article-right-classification li a {
+    width: 100%;
+}
+
+.article-right-category li a:hover,
+.article-right-labels li a:hover,
+.article-right-classification li a:hover {
+    border-color: var(--theme-color-blue2);
+}

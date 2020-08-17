@@ -1,0 +1,113 @@
+﻿@using Guet.ViewModels.Blogs;
+@model List<ArticleVM>;
+@{
+    Layout = "_LayoutIndex";
+    ViewData["Title"] = "文章搜索";
+}
+
+<section class="container padding-tb">
+    <div class="row">
+        <!-- 搜索结果展示 -->
+        <div class="col-md-12 padding-lr-none">
+            <div class=" panel-dark bg-white">
+                @*<div class="panel-heading search-result search-tips">
+                    搜索结果：
+                    <span class="tip-item search-success text-success">
+                        本次搜索 [ <strong id="SearchKeyArea">Niubility</strong> ] 一共搜索到 <strong id="SearchCount">99</strong> 条内容！
+                    </span>
+                    <span class="tip-item search-warning text-warning">
+                        <strong>很抱歉！</strong>
+                        <span>本次搜索没有找到 [ <strong id="SearchKeyArea">Niubility</strong> ] 相关的内容！您也可以点击</span>
+                        <a href="#" class="search-link">提交反馈</a> 给博主完善更多的内容！
+                    </span>
+                    <span class="tip-item search-danger text-danger">
+                        <strong>很抱歉！</strong>
+                        <span> 当前关键字 [ <strong id="SearchKeyArea">Niubility</strong> ] 已经被博主进行了屏蔽搜索！如果有疑问请</span>
+                        <a href="#" class="search-link">提交反馈</a> ！
+                    </span>
+                </div>*@
+                <div class="panel-body">
+                    <!-- 文章列表 -->
+                    <div class="layui-row">
+                        <div class="layui-col-md12 padding-lr padding-l-none">
+                            <div class="l layui-tab layui-tab-brief bg-white blog-relative">
+                                <ul class="layui-tab-title tz-tabs">
+                                    <li class="layer-tab-item layui-this">文章搜索结果</li>
+                                </ul>
+                                <div class="layui-tab-content">
+                                    <div class="layui-tab-item layui-show articles-list">
+                                        <ul id="SearchList">
+                                            @if (Model == null || Model.Count <= 0)
+                                            {
+                                                <li style="padding: 200px 0; text-align: center; font-weight: 700;" class="articles-item-line margin-top-xs padding-bottom">没有搜索到相关的文章！</li>
+                                            }
+                                            else
+                                            {
+                                                foreach (var item in Model)
+                                                {
+                                                    <li class="articles-item-line margin-top-xs padding-bottom">
+                                                        <a href="/Home/ArticleDetail/@item.Id">
+                                                            <div class="layui-row articles-item">
+                                                                <div class="layui-col-md12">
+                                                                    <div class="layui-row articles-item-content padding">
+                                                                        <div class="layui-col-md4 articles-item-cover">
+                                                                            <img src="@(!string.IsNullOrEmpty(item.Cover)?item.Cover:"../../images/main/article_image_001.jpg")" title="12323" alt="@item.Cover">
+                                                                            <span class="article-item-category">@(string.IsNullOrEmpty(item.Category?.Name)?"该文章没有分类": item.Category?.Name)</span>
+                                                                        </div>
+                                                                        <div class="layui-col-md8 articles-list-items">
+                                                                            <div class="layui-row">
+                                                                                <div class="layui-col-md12">
+                                                                                    <span class="layui-btn layui-btn-xs is-original">@(item.IsOwn?"原创":"转载")</span>
+                                                                                    <a href="javascript:" title="@item.Title" class="articles-item-title margin-t-none">@item.Title</a>
+                                                                                </div>
+                                                                                <div class="layui-col-md12 articles-item-description">
+                                                                                    <p> @item.Abstract </p>
+                                                                                </div>
+                                                                                <div class="layui-col-md12">
+                                                                                    <div class="layui-row">
+                                                                                        <div class="layui-col-md8">
+                                                                                            <img title="官方认证：站长" class="articles-item-avatar margin-right" src="~/images/header/avatar_002.jpg" alt="">
+                                                                                            <span>@item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss")</span>
+                                                                                            <span>【 <a class="" href="/Home/Category/@item.Category?.Id" target="_blank">@(string.IsNullOrEmpty(item.Category?.Name)?"该文章没有分类": item.Category?.Name)</a>】</span>
+                                                                                        </div>
+                                                                                        <div class="layui-col-md4 text-right">
+                                                                                            <a href="/Home/ArticleDetail/@item.Id" class="to-article-detail layui-btn layui-btn-xs">阅读更多</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- 文章分页 -->
+                            <div class="layui-row text-center">
+                                <div class="layui-col-md12">
+                                    <div class="padding-top layer-3-pagination bg-white">
+                                        <div id="PaginationSearch"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script> 
+        window.onload = function () {
+            this.searchPage.init();
+        }
+    </script>
+}

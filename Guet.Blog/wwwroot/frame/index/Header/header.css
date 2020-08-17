@@ -1,0 +1,205 @@
+.home-header {
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:5;
+    width: 100%;
+    padding: 5px 0;
+    background: var( --theme-color-dark);
+    height: 60px;
+    line-height: 65px;
+    min-width: 1200px;
+    margin-bottom: 15px;
+} 
+
+header::before {
+    /* background: #000 linear-gradient(to left, #4cd964, #5ac8fa, #007aff, #34aadc, #5856d6, #ff2d55); */
+    background: #000 linear-gradient(to left, #28b3f7, #9871e2, #fc31d0, #2eaff6, #c851da, #fa32d1);
+    content: "";
+    height: 5px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.header-title {}
+
+.header-title .title-text {
+    color: #FFF;
+    font-size: 22px;
+}
+
+.header-title .title-text:hover {
+    text-decoration: none;
+}
+
+.header-title .title-logo {
+    width: 100%;
+    height: 100%;
+}
+
+.header-navs {
+    text-align: center;
+}
+
+.header-navs .link {
+    color: #fff;
+    text-decoration: none;
+}
+
+.header-navs .link:hover,
+.header-navs .active .link {
+    color: var( --theme-color-blue);
+}
+
+.header-user {}
+
+.nav-list {
+    /*text-align: right;*/
+}
+
+.has-login-btns {
+    text-align: right;
+}
+
+.to-login-btns>a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.to-login-btns .split-line {
+    color: #fff;
+}
+
+.header-user .to-login {
+    padding-right: 10px;
+    display: inline-block;
+}
+
+.header-user .to-register {
+    padding-left: 10px;
+}
+
+.has-login-avatar {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.has-login-nickname {
+    color: var( --theme-color-blue);
+}
+
+.has-login-to-logout {
+    color: red;
+}
+
+.show-search {
+    color: white;
+    font-size: 18px;
+}
+    .show-search span{
+        display:inline-block;
+        font-size:14px;
+        padding-left:5px;
+    }
+    .show-search:hover {
+        color: white;
+    }
+
+.show-search>i.layui-icon {
+    font-size: 12px;
+}
+
+
+/* 搜索 */
+
+.home-search {
+    margin-bottom: 15px;
+    display: none;
+}
+
+.home-search.container {
+    /* border-radius: 5px 5px 0 0; */
+    background-color: white;
+    position: relative;
+}
+
+.search-container {
+    margin: 0 auto;
+    width: 600px;
+    padding: 20px 0;
+}
+
+.search-container .layui-form-item {
+    margin-bottom: 0;
+}
+
+.search-container .layui-input-inline {
+    width: initial;
+}
+
+.home-search-input {
+    border-color: var( --theme-color-dark);
+    width: 420px;
+}
+
+.home-search-btn {
+    width: 150px;
+    background-color: var( --theme-color-dark);
+    color: white;
+    border-color: var( --theme-color-dark);
+}
+
+.btn-default:focus,
+.btn-default.focus,
+.home-search-btn:hover,
+.home-search-btn:active,
+.home-search-btn.active:hover,
+.home-search-btn:active:hover {
+    color: white!important;
+    background-color: var( --theme-color-dark)!important;
+    border-color: var( --theme-color-dark)!important;
+}
+
+.close-search-container {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    transform: rotateZ(45deg);
+    color: var(--theme-color-dark);
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.blog-search-btns {
+    padding: 0!important;
+}
+
+.user-login-btn {
+    width: 100%;
+}
+
+.user-to-toggle {
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.user-login-register {
+    width: 400px;
+    padding: 20px;
+    padding-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.user-logindialog .layui-tab-content {
+    padding-top: 15px;
+}
+
+.user-logindialog {
+    width: 400px!important;
+}

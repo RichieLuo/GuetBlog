@@ -1,0 +1,52 @@
+﻿
+@using Guet.Web.Models
+@using Guet.ViewModels.Blogs
+@using Guet.ViewModels.Common
+@{
+    Layout = "_LayoutIndex";
+    ViewData["Title"] = "文章分类";
+}
+@{
+    var resultData = ViewBag.ResultData as DataResultViewModel<CategoryVM>;
+
+    var resultListData = ViewBag.ResultListData as DataResultViewModel<List<CategoryVM>>;
+   
+}
+
+@if (ViewBag.IsList)
+{
+    <h5>分类列表</h5>
+    <ul> 
+        @foreach (var item in resultListData.Data)
+        {
+            <li>
+                <div class="layui-card">
+                    <div class="layui-card-header">@item.Name</div>
+                    <div class="layui-card-body">
+                        分类名称：@item.Name
+                    </div>
+                </div>
+            </li>
+        }
+
+    </ul> 
+}
+else
+{
+    <h5>分类下的文章</h5>
+    <ul>
+        <li>@resultData.Data?.Name</li>
+        @foreach (var item in resultData.Data?.Articles)
+        {
+            <li>
+                <div class="layui-card">
+                    <div class="layui-card-header">文章名称：@item.Title</div>
+                    <div class="layui-card-body">
+                        文章摘要：@item.Abstract
+                    </div>
+                </div>
+            </li>
+        }
+
+    </ul>
+}

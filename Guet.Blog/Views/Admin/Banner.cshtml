@@ -1,0 +1,269 @@
+﻿
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "轮播图/首页侧栏推荐";
+}
+
+
+<link href="~/lib/layui/css/layui.css" rel="stylesheet" />
+<style>
+    .table th {
+        text-align: center;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <ul class="nav nav-tabs page-tabs">
+                <li class="active"><a href="#!">轮播图/首页侧栏推荐</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <table class="text-center table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>封面图片</th>
+                                <th>标题</th>
+                                <th>链接</th>
+                                <th>轮播图/侧栏推荐</th>
+                                <th>新页面打开</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ListContainer">
+                            <tr>
+                                <td colspan="8">暂无数据</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                        <div class="" id="PaginationContainer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/layui/layui.js"></script>
+    <script>
+        window.onload = function () {
+            layui.use(['element', 'laypage', 'layer','form','upload'], function () {
+                var element = layui.element,
+                    layer = layui.layer,
+                    form = layui.form,
+                    upload = layui.upload,
+                    laypage = layui.laypage;
+                function disEnable() {
+                    $(".disenable-btn").off("click").on("click", function () {
+                        var msg = $(this).data("en") === 0 ? "确定要启用吗？" : "确定要禁用吗？";
+                        if (confirm(msg)) {
+                            $.ajax({
+                                url: "/Admin/DisEnableBanner",
+                                type: "post",
+                                data: {
+                                    Id: $(this).data("id"),
+                                    Enable: $(this).data("en") === 0 ? true : false
+                                },
+                                dataType: "json",
+                                success: function (res) {
+                                    alert(res.msg);
+                                    if (res.status) {
+                                        initPage();
+                                    }
+                                },
+                                fail: function () {
+                                    alert(res.msg);
+                                }
+                            })
+                        }
+                    });
+                }
+
+                function formTemplate(data) {
+                    return `
+                            <form class="layui-form layui-form-pane" action="" lay-filter="SaveForm" style="padding: 30px;box-sizing: content-box;overflow: hidden;">
+                                            <input type="hidden" name="Id" value="${data.id}">
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">图片预览</label>
+                                                <div class="layui-input-block">
+                                                    <img style="width:300px;height: 110px;" src="${data.url}" id="BannerImage">
+                                                </div>
+                                              </div>
+                                                <div class="layui-form-item">
+                                                <label class="layui-form-label">图片</label>
+                                                <div class="layui-input-inline">
+                                                  <input type="text" name="Url" required lay-verify="required" value="${data.url}" placeholder="输入图片地址..." autocomplete="off" class="layui-input">
+                                                </div>
+                                                <div class="layui-form-mid layui-word-aux" style="padding: 0!important;"><button type="button" class="layui-btn" id="UploadImage">上传图片</button></div>
+                                              </div>
+                                             <div class="layui-form-item">
+                                                <label class="layui-form-label">标题</label>
+                                                <div class="layui-input-block">
+                                                  <input type="text" name="Title"  value="${data.title}" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                                                </div>
+                                              </div>
+                                                <div class="layui-form-item">
+                                                <label class="layui-form-label">超链接</label>
+                                                <div class="layui-input-block">
+                                                  <input type="text" name="Href" value="${data.href}"  placeholder="请输入超链接" autocomplete="off" class="layui-input">
+                                                </div>
+                                              </div>
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">是否显示</label>
+                                                <div class="layui-input-block">
+                                                 <input type="checkbox" name="IsShow" lay-skin="switch" lay-text="显示|隐藏" ${data.isShow ? "checked" : ""} >
+                                                </div>
+                                              </div>
+                                            <div class="layui-form-item">
+                                                <label class="layui-form-label">是否新窗口</label>
+                                                <div class="layui-input-block">
+                                                 <input type="checkbox" name="Target" lay-skin="switch" lay-text="是|否" ${data.target ?"checked":""} >
+                                                </div>
+                                              </div>
+                                            <div class="layui-form-item" style="">
+                                                <div class=" text-center">
+                                                  <button type="submit" id="SaveBtn" class="layui-btn" lay-submit="" lay-filter="SaveBtn">保存提交</button>
+                                                </div>
+                                              </div>
+                                        </form>
+
+                        `;
+                }
+                function getBannerById() {
+
+                    $(".update-btn").off("click").on("click", function () {
+                        $.ajax({
+                            url: "/Admin/GetBannerById",
+                            type: "post",
+                            data: {
+                                Id: $(this).data("id")
+                            },
+                            dataType: "json",
+                            success: function (res) {
+                                layer.open({
+                                    type: 1,
+                                    title: "修改",
+                                    area: ['650px', '600px'], //宽高
+                                    content: formTemplate(res),
+                                    success: function () {
+                                        form.render();
+                                        updateBanner();
+                                        uploadImage();
+                                    }
+                                });
+                            },
+                            error: function () {
+                                alert(res.msg);
+                            }
+                        })
+                    });
+                };
+                function updateBanner() {
+                    form.on("submit(SaveBtn)", function (data) {
+                        console.log(data.field)
+                        data.field.IsShow= data.field.IsShow === "on" ? true : false;
+                        data.field.Target =data.field.Target === "on" ? true : false; 
+                        $.ajax({
+                            url: "/Admin/UpdateBanner",
+                            type: "post",
+                            data: data.field,
+                            dataType: "json",
+                            success: function (res) {
+                                alert(res.msg);
+                                if (res.status) {
+                                    layer.closeAll();
+                                    initPage();
+                                }
+                            },
+                            fail: function () {
+                                alert(res.msg);
+                            }
+                        })
+
+                        return false;
+                    });
+                }
+                function getBanners(param) {
+                    $.ajax({
+                        url: "/Admin/GetBanners",
+                        type: "post",
+                        data: { index: param.curr, limit: param.limit },
+                        dataType: "json",
+                        success: function (res) {
+                            var t = '';
+                            res.data.forEach((item, index) => {
+                                var isShow = item.isShow ? '<button class="btn btn-xs btn-primary">正常显示</button>' : '<button class="btn btn-xs btn-danger">已隐藏</button>';
+                                var isShowBtn = !item.isShow ? `<button class="btn btn-xs btn-warning disenable-btn" data-en="0" data-id="${item.id}">显示</button>` : `<button class="btn btn-xs btn-dark disenable-btn" data-en="1" data-id="${item.id}">隐藏</button>`;
+                                t += `<tr">
+                                           <th scope="row">${item.orderNumber}</th>
+                                            <td><img style="width:150px;height:35px;" src="${item.url}" alt=""/></td>
+                                       <td>${item.title}</td>
+                                      <td>${item.href}</td>
+               <td>${item.isBanner ? "轮播图" : "侧栏推荐内容"}</td>
+               <td>${item.target ? "新窗口" : "当前窗口"}</td>
+                                    <td>${isShow}</td>
+                                       <td>
+                                            <button class="btn btn-xs btn-primary update-btn" data-id="${item.id}">编辑</button>
+                                         ${isShowBtn}
+                                         </td>
+                                         </tr>
+                                  `;
+                            });
+
+                            $("#ListContainer").html(t);
+                            disEnable();
+                            getBannerById();
+                        },
+                        fail: function () {
+                            alert(res.msg);
+                        }
+                    })
+                };
+                function initPage() {
+                    $.ajax({
+                        url: "/Admin/GetBannersCount",
+                        type: "post",
+                        dataType: "json",
+                        success: function (res) {
+
+                            laypage.render({
+                                elem: 'PaginationContainer',
+                                count: res, //从后台获取值
+                                layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+                                jump: function (obj) {
+                                    getBanners(obj);
+                                }
+                            });
+                        },
+                        fail: function () {
+                            alert("请求错误");
+                        }
+                    })
+
+                }
+                function uploadImage() {
+                      upload.render({
+                            elem: '#UploadImage',
+                            url: '@Url.Action("Upload", "File")',
+                            method: "post",
+                            data: { IsRich: false },
+                            accept:"images",
+                            done: function (res, index, upload) {
+                                if (res.status && res.code === 200) {
+                                    $('#BannerImage').attr('src', res.fullUrl);
+                                    $('input[name=Url]').val(res.fullUrl);
+                                } else {
+                                    console.log(res.msg)
+                                };
+                            }
+                        });
+                } 
+                initPage();
+            })
+        }
+    </script>
+}

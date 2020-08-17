@@ -1,0 +1,1205 @@
+﻿
+@model HomeDataViewModel;
+
+@{
+    Layout = "_layoutIndex";
+    ViewData["Title"] = "首页";
+}
+
+<section class="home-main-container">
+    <div class="container">
+        <!-- 第一层 -->
+        <div class="layui-row layer-1">
+            <div class="layui-col-md9 layer-1-left">
+                <div class="layui-row  bg-white layer-1-left-content">
+                    <div class="layui-col-md12">
+                        <div class="main-swiper swiper-container">
+                            <div class="swiper-wrapper">
+                                @foreach (var item in Model.Banners)
+                                {
+                                    <div class="swiper-slide swiper-item">
+                                        <a href="@item.Href" target="@(item.Target?"_blank":"")" title="@item.Title">
+                                            <img class="swiper-item-image" src="@item.Url" alt="@item.Title">
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md4 padding-lr main-hot-article display-none">
+                        <div class="hot-article">
+                            <a href="javascript:" target="_blank" title="热门文章标题">
+                                <img class="hot-article-cover" src="~/images/main/article_image_002.jpg" alt="">
+                                <span class="hot-article-text">
+                                    自从入了这行，很多人跟我说可以做网络教程...
+                                </span>
+                            </a>
+                        </div>
+                        <div class="hot-article">
+                            <a href="javascript:" target="_blank" title="热门文章标题">
+                                <img class="hot-article-cover" src="~/images/main/article_image_001.jpg" alt="">
+                                <span class="hot-article-text">
+                                    直接做一套免费的原创个人博客模板更为实在...
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md3 layer-1-right">
+                <div class="my-card bg-white">
+                    <img class="my-card-avatar blog-radius" src="@Model.User?.Avatar" alt="@Model.User?.NickName">
+                    <h3 class="my-card-nickname" title="@Model.User?.NickName">@Model.User?.NickName</h3>
+                    <div class="my-card-motto">@Model.User?.Remark</div>
+                    @*<div class="my-card-motto">城市：我的城市</div>*@
+                    @*<div class="my-card-motto">联系：我的联系方式</div>*@
+                    <div class="my-card-btns display-none">
+                        <button type="button" class="layui-btn layui-btn-sm layui-btn-warm" title="点赞"><i class="layui-icon">&#xe6c6;</i>999999</button>
+                        <button type="button" class="layui-btn layui-btn-sm layui-btn-danger" title="关注我"><i class="layui-icon layui-icon-add-1"></i>关注我</button>
+                    </div>
+                    <div class="my-card-count layui-row display-none">
+                        <div class="layui-col-md4 border-right ">
+                            <h4>999999</h4>
+                            <p>运行天数</p>
+                        </div>
+                        <div class="layui-col-md4 border-right ">
+                            <h4>999999</h4>
+                            <p>留言数量</p>
+                        </div>
+                        <div class="layui-col-md4">
+                            <h4>999999</h4>
+                            <p>文章数量</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第二层 -->
+        <div class="layui-row layer-2 display-none">
+            <div class="layui-col-md9 layer-2-content padding-lr padding-l-none">
+                <div class="l layui-tab layer-2-content layui-tab-brief bg-white blog-relative">
+                    <ul class="layui-tab-title tz-tabs">
+                        <li class="layer-tab-item layui-this">个人博客</li>
+                        <li class="layer-tab-item">Web前端</li>
+                        <li class="layer-tab-item">.Net后端</li>
+                        <li class="layer-tab-item">软件测试</li>
+                        <li class="layer-tab-item">其他</li>
+                    </ul>
+                    <a href="/Home/Articles" class="blog-more" title="更多"> More+ </a>
+                    <div class="layui-tab-content">
+                        <!-- 个人博客 类别精选 -->
+                        <div class="layui-tab-item layui-show">
+                            <div class="layui-row category-selection-list">
+                                <div class="layui-col-md4">
+                                    <div class="layui-row">
+                                        <div class="layui-col-md12 category-selection">
+                                            <img class="selection-image" src="~/images/main/article_image_001.jpg" alt="">
+                                            <span class="selection-title">这是标题111111</span>
+                                        </div>
+                                        <div class="layui-col-md12 category-selection">
+                                            <img class="selection-image" src="~/images/main/article_image_002.jpg" alt="">
+                                            <span class="selection-title">这是标题223333</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md8 selection-list-items">
+                                    <div class="layui-row selection-selected active">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-1">1</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题 个人博客
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-2">2</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-3">3</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index">4</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index">5</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Web前端 类别精选 -->
+                        <div class="layui-tab-item">
+                            <div class="layui-row category-selection-list">
+                                <div class="layui-col-md4">
+                                    <div class="layui-row">
+                                        <div class="layui-col-md12 category-selection">
+                                            <img class="selection-image" src="~/images/main/article_image_001.jpg" alt="">
+                                            <span class="selection-title">这是标题111111</span>
+                                        </div>
+                                        <div class="layui-col-md12 category-selection">
+                                            <img class="selection-image" src="~/images/main/article_image_002.jpg" alt="">
+                                            <span class="selection-title">这是标题223333</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md8 selection-list-items">
+                                    <div class="layui-row selection-selected active">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-1">1</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题 Web前端
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-2">2</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-3">3</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index">4</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index">5</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .Net 后端 类别精选 -->
+                        <div class="layui-tab-item">
+                            <div class="layui-row category-selection-list">
+                                <div class="layui-col-md4">
+                                    <div class="layui-row">
+                                        <div class="layui-col-md12 category-selection">
+                                            <img class="selection-image" src="~/images/main/article_image_001.jpg" alt="">
+                                            <span class="selection-title">这是标题111111</span>
+                                        </div>
+                                        <div class="layui-col-md12 category-selection">
+                                            <img class="selection-image" src="~/images/main/article_image_002.jpg" alt="">
+                                            <span class="selection-title">这是标题223333</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md8 selection-list-items">
+                                    <div class="layui-row selection-selected active">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-1">1</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题 .Net 后端
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-2">2</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-3">3</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index">4</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index">5</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题 其他的
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 软件测试 类别精选 -->
+                        <div class="layui-tab-item">
+                            <div class="layui-row category-selection-list">
+                                <div class="layui-col-md4">
+                                    <div class="layui-row">
+                                        <div class="layui-col-md12 category-selection">
+                                            <img class="selection-image" src="~/images/main/article_image_001.jpg" alt="">
+                                            <span class="selection-title">这是标题111111</span>
+                                        </div>
+                                        <div class="layui-col-md12 category-selection">
+                                            <img class="selection-image" src="~/images/main/article_image_002.jpg" alt="">
+                                            <span class="selection-title">这是标题223333</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md8 selection-list-items">
+                                    <div class="layui-row selection-selected active">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-1">1</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题 软件测试
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-2">2</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-3">3</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 其他 类别精选 -->
+                        <div class="layui-tab-item">
+                            <div class="layui-row category-selection-list">
+                                <div class="layui-col-md4">
+                                    <div class="layui-row">
+                                        <div class="layui-col-md12 category-selection">
+                                            <img class="selection-image" src="~/images/main/article_image_001.jpg" alt="">
+                                            <span class="selection-title">这是标题111111</span>
+                                        </div>
+                                        <div class="layui-col-md12 category-selection">
+                                            <img class="selection-image" src="~/images/main/article_image_002.jpg" alt="">
+                                            <span class="selection-title">这是标题223333</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-col-md8 selection-list-items">
+                                    <div class="layui-row selection-selected active">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-1">1</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要....... 这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-2">2</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index selection-top-3">3</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index">4</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+                                    <div class="layui-row selection-selected">
+                                        <div class="layui-col-md1">
+                                            <span class="selection-index">5</span>
+                                        </div>
+                                        <div class="layui-col-md11 padding-l-none">
+                                            <a class="selection-r-title" href="javascript:">
+                                                这是文章的标题
+                                            </a>
+                                        </div>
+                                        <div class="layui-col-md12 selection-abstract">
+                                            这是文章的摘要.......
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3 layer-2-content padding-lr padding-r-none">
+                <div class="layui-tab layer-2-content layui-tab-brief bg-white">
+                    <ul class="layui-tab-title tz-tabs">
+                        <li class="layer-tab-item layui-this">最近更新</li>
+                    </ul>
+                    <div class="r layui-tab-content">
+                        <div class="layui-tab-item layui-show ">
+                            <div class="layui-row margin-lr-none last-articles">
+                                <div class="layui-col-md12 active-user-item">
+                                    <a class="" href="javascript:" title="文章的标题">
+                                        <div class="layui-row">
+                                            <div class="layui-col-md7 padding-lr-none text-left">
+                                                <span class="active-user-nickname">《论全栈大佬的牛逼》</span>
+                                            </div>
+                                            <div class="layui-col-md5 text-right padding-l-none">
+                                                <span class="spilt">—</span><span class="">2019-12-08</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="layui-col-md12 active-user-item">
+                                    <a class="" href="javascript:" title="文章的标题">
+                                        <div class="layui-row">
+                                            <div class="layui-col-md7 padding-lr-none text-left">
+                                                <span class="active-user-nickname">《论全栈大佬的牛逼》</span>
+                                            </div>
+                                            <div class="layui-col-md5 text-right padding-l-none">
+                                                <span class="spilt">—</span><span class="">2019-12-08</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="layui-col-md12 active-user-item">
+                                    <a class="" href="javascript:" title="文章的标题">
+                                        <div class="layui-row">
+                                            <div class="layui-col-md7 padding-lr-none text-left">
+                                                <span class="active-user-nickname">《论全栈大佬的牛逼》</span>
+                                            </div>
+                                            <div class="layui-col-md5 text-right padding-l-none">
+                                                <span class="spilt">—</span><span class="">2019-12-08</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="layui-col-md12 active-user-item">
+                                    <a class="" href="javascript:" title="文章的标题">
+                                        <div class="layui-row">
+                                            <div class="layui-col-md7 padding-lr-none text-left">
+                                                <span class="active-user-nickname">《论全栈大佬的牛逼》</span>
+                                            </div>
+                                            <div class="layui-col-md5 text-right padding-l-none">
+                                                <span class="spilt">—</span><span class="">2019-12-08</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="layui-col-md12 active-user-item">
+                                    <a class="" href="javascript:" title="文章的标题">
+                                        <div class="layui-row">
+                                            <div class="layui-col-md7 padding-lr-none text-left">
+                                                <span class="active-user-nickname">《论全栈大佬的牛逼》</span>
+                                            </div>
+                                            <div class="layui-col-md5 text-right padding-l-none">
+                                                <span class="spilt">—</span><span class="">2019-12-08</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="layui-col-md12 active-user-item">
+                                    <a class="" href="javascript:" title="文章的标题">
+                                        <div class="layui-row">
+                                            <div class="layui-col-md7 padding-lr-none text-left">
+                                                <span class="active-user-nickname">《论全栈大佬的牛逼》</span>
+                                            </div>
+                                            <div class="layui-col-md5 text-right padding-l-none">
+                                                <span class="spilt">—</span><span class="">2019-12-08</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第三层 -->
+        <div class="layui-row layer-3">
+            <!-- 左边 -->
+            <div class="layui-col-md9">
+                <!-- 特别推荐 -->
+                <div class="layui-row margin-bottom">
+                    <div class="layui-col-md12 padding-lr padding-l-none">
+                        <div class="l layui-tab layui-tab-brief bg-white" style="padding-bottom: 0;">
+                            <ul class="layui-tab-title tz-tabs">
+                                <li class="layer-tab-item layui-this">特别推荐</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show ">
+                                    <ul class="article-recommendation">
+                                        @foreach (var item in Model.ReArticles)
+                                        {
+                                            <li class="recommendation-item">
+                                                <a class="recommendation-cover" href="/Home/ArticleDetail/@item.Id" title="@item.Title">
+                                                    <img src="@item.Cover" alt="@item.Title">
+                                                </a>
+                                                <h5 class="recommendation-title">@item.Title</h5>
+                                                <p class="recommendation-description">@item.Abstract</p>
+                                                <a class="recommendation-read-btn" href="/Home/ArticleDetail/@item.Id" title="阅读文章按钮">+阅读文章</a>
+                                            </li>
+                                        }
+
+                                        @*<li class="recommendation-item">
+                                                <a class="recommendation-cover" href="javascript:" title="特别推荐的文章">
+                                                    <img src="~/images/main/article_image_002.jpg" alt="">
+                                                </a>
+                                                <h5 class="recommendation-title">文章标题</h5>
+                                                <p class="recommendation-description">不管你是学前端的还是后端的，作为一个程序员，做一个自己的博客，那是必然的。咱们的圈子就这么大，想干嘛就去干嘛</p>
+                                                <a class="recommendation-read-btn" href="javascript:" title="阅读文章按钮">+阅读文章</a>
+                                            </li>
+                                            <li class="recommendation-item">
+                                                <a class="recommendation-cover" href="javascript:" title="特别推荐的文章">
+                                                    <img src="~/images/main/article_image_002.jpg" alt="">
+                                                </a>
+                                                <h5 class="recommendation-title">文章标题</h5>
+                                                <p class="recommendation-description">不管你是学前端的还是后端的，作为一个程序员，做一个自己的博客，那是必然的。咱们的圈子就这么大，想干嘛就去干嘛</p>
+                                                <a class="recommendation-read-btn" href="javascript:" title="阅读文章按钮">+阅读文章</a>
+                                            </li>*@
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 最新博文 -->
+                <div class="layui-row">
+                    <div class="layui-col-md12 padding-lr padding-l-none">
+                        <div class="l layui-tab layui-tab-brief bg-white blog-relative">
+                            <ul class="layui-tab-title tz-tabs">
+                                <li class="layer-tab-item layui-this">最新博文</li>
+                            </ul>
+                            <a href="/Home/Articles" class="blog-more" title="更多"> More+ </a>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show articles-list">
+                                    <ul id="ArticlesList">
+                                        <li style="padding: 200px 0; text-align: center; font-weight: 700;" class="articles-item-line margin-top-xs padding-bottom">文章正在加载中...！</li>
+                                        <li class="articles-item-line  margin-top-xs padding-bottom display-none">
+                                            <a href="javascript:" title="文章的链接">
+                                                <div class="layui-row articles-item">
+                                                    <div class="layui-col-md12">
+                                                        <div class="layui-row articles-item-content padding">
+                                                            <div class="layui-col-md4 articles-item-cover">
+                                                                <img src="~/images/main/article_image_002.jpg" alt="">
+                                                                <span class="article-item-category">技术博文</span>
+                                                            </div>
+                                                            <div class="layui-col-md8 articles-list-items">
+                                                                <div class="layui-row">
+                                                                    <div class="layui-col-md12">
+                                                                        <h4 class="articles-item-title margin-t-none">
+                                                                            <a href="javascript:" title="文章的标题">文章标题1</a>
+                                                                        </h4>
+                                                                    </div>
+                                                                    <div class="layui-col-md12 articles-item-description">
+                                                                        <p>
+                                                                            对于刚毕业的学生来说，想学习建网站，掌握一技之长，最简单的入门无非就是学会html和css， 先前发表过一篇文章《如果要学习web前端开发，需要学习什么？》，如果你还不知道如何着手， 请仔细阅读....7天的时间，入门是没有问题的，加油！
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="layui-col-md12">
+                                                                        <div class="layui-row">
+                                                                            <div class="layui-col-md8">
+                                                                                <img title="官方认证：站长" class="articles-item-avatar margin-right" src="~/images/header/avatar_002.jpg" alt="">
+                                                                                <span>2019-12-07</span>
+                                                                                <span>【 <a class="" href="javascript:" target="_blank">技术博文</a>】</span>
+                                                                            </div>
+                                                                            <div class="layui-col-md4 text-right">
+                                                                                <button type="button" class="to-article-detail layui-btn layui-btn-xs">阅读更多</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="articles-item-line margin-top-xs  padding-bottom display-none">
+                                            <a href="javascript:" title="文章的链接">
+                                                <div class="layui-row articles-item">
+                                                    <div class="layui-col-md12">
+                                                        <div class="layui-row articles-item-content padding">
+                                                            <div class="layui-col-md4 articles-item-cover">
+                                                                <img src="~/images/main/article_image_002.jpg" alt="">
+                                                                <span class="article-item-category">技术博文</span>
+                                                            </div>
+                                                            <div class="layui-col-md8 articles-list-items">
+                                                                <div class="layui-row">
+                                                                    <div class="layui-col-md12">
+                                                                        <h4 class="articles-item-title margin-t-none">
+                                                                            <a href="javascript:" title="文章的标题">文章标题1</a>
+                                                                        </h4>
+                                                                    </div>
+                                                                    <div class="layui-col-md12 articles-item-description">
+                                                                        <p>
+                                                                            对于刚毕业的学生来说，想学习建网站，掌握一技之长，最简单的入门无非就是学会html和css， 先前发表过一篇文章《如果要学习web前端开发，需要学习什么？》，如果你还不知道如何着手，请仔细阅读....7天，入门是没有问题的，当然，如果你用心的话！
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="layui-col-md12">
+                                                                        <div class="layui-row">
+                                                                            <div class="layui-col-md8">
+                                                                                <img title="官方认证：站长" class="articles-item-avatar margin-right" src="~/images/header/avatar_002.jpg" alt="">
+                                                                                <span>2019-12-07</span>
+                                                                                <span>【 <a class="" href="javascript:" target="_blank">技术博文</a>】</span>
+                                                                            </div>
+                                                                            <div class="layui-col-md4 text-right">
+                                                                                <button type="button" class="to-article-detail layui-btn layui-btn-xs">阅读更多</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="articles-item-line margin-top-xs padding-bottom display-none">
+                                            <a href="javascript:" title="文章的链接">
+                                                <div class="layui-row articles-item">
+                                                    <div class="layui-col-md12">
+                                                        <div class="layui-row articles-item-content padding">
+                                                            <div class="layui-col-md4 articles-item-cover">
+                                                                <img src="~/images/main/article_image_002.jpg" alt="">
+                                                                <span class="article-item-category">技术博文</span>
+                                                            </div>
+                                                            <div class="layui-col-md8 articles-list-items">
+                                                                <div class="layui-row">
+                                                                    <div class="layui-col-md12">
+                                                                        <h4 class="articles-item-title margin-t-none">
+                                                                            <a href="javascript:" title="文章的标题">文章标题1</a>
+                                                                        </h4>
+                                                                    </div>
+                                                                    <div class="layui-col-md12 articles-item-description">
+                                                                        <p>
+                                                                            对于刚毕业的学生来说，想学习建网站，掌握一技之长，最简单的入门无非就是学会html和css， 先前发表过一篇文章《如果要学习web前端开发，需要学习什么？》，如果你还不知道如何着手，7天的时间，入门是没有问题的，当然，如果你用心的话！
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="layui-col-md12">
+                                                                        <div class="layui-row">
+                                                                            <div class="layui-col-md8">
+                                                                                <img title="官方认证：站长" class="articles-item-avatar margin-right" src="~/images/header/avatar_002.jpg" alt="">
+                                                                                <span>2019-12-07</span>
+                                                                                <span>【 <a class="" href="javascript:" target="_blank">技术博文</a>】</span>
+                                                                            </div>
+                                                                            <div class="layui-col-md4 text-right">
+                                                                                <button type="button" class="to-article-detail layui-btn layui-btn-xs">阅读更多</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 文章分页 -->
+                <div class="layui-row text-center">
+                    <div class="layui-col-md12 padding-lr padding-l-none">
+                        <div class=" padding-top layer-3-pagination bg-white">
+                            <div id="PaginationHomeArticleContainer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 右边内容 -->
+            <div class="layui-col-md3">
+                <!-- 打赏博主 -->
+                <div class="layui-row margin-bottom">
+                    <div class="layui-col-md12 padding-lr padding-r-none">
+                        <div class="layui-tab layui-tab-brief bg-white">
+                            <ul class="layui-tab-title tz-tabs">
+                                <li class="layer-tab-item layui-this">打赏博主</li>
+                            </ul>
+                            <div class="r layui-tab-content">
+                                <div class="layui-tab-item layui-show ">
+                                    <img style="width:100%;" src="@Model.SiteInfo.QrCode" alt="打赏博主" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 文章点击排行 -->
+                <div class="layui-row margin-bottom">
+                    <div class="layui-col-md12 padding-lr padding-r-none">
+                        <div class="layui-tab layui-tab-brief bg-white">
+                            <ul class="layui-tab-title tz-tabs">
+                                <li class="layer-tab-item layui-this">热门文章</li>
+                            </ul>
+                            <div class="r layui-tab-content">
+                                <div class="layui-tab-item layui-show ">
+                                    @{
+                                        bool isShow = false;
+                                        foreach (var item in Model.TopTenArticles)
+                                        {
+                                            if (!isShow)
+                                            {
+                                                isShow = true;
+                                                <div class="layui-row">
+                                                    <div class="layui-col-md12">
+                                                        <div class="right-ad-image ">
+                                                            <a href="/Home/ArticleDetail/@item.Id" title="@item.Title">
+                                                                <img src="@item.Cover" alt="@item.Title">
+                                                                <span>@item.Abstract</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    <div class="layui-row margin-lr-none ranking-articles">
+                                        @{
+                                            int orderNumber = 1;
+                                            foreach (var item in Model.TopTenArticles)
+                                            {
+                                                <div class="layui-col-md12 active-user-item">
+                                                    <a class="" href="/Home/ArticleDetail/@item.Id" title="@item.Title">
+                                                        <div class="layui-row">
+                                                            <div class="layui-col-md2 active-user-line  padding-l-none padding-right">
+                                                                <span class="active-user-index top-@orderNumber">@orderNumber</span>
+                                                            </div>
+                                                            <div class="layui-col-md10 padding-lr-none active-user-line ">
+                                                                <span class="active-user-nickname">《@item.Title》</span>
+                                                                <span class="active-user-comment-count"> 点击(@item.VisitCount)次</span>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                orderNumber++;
+                                            }
+                                        }
+                                        @*<div class="layui-col-md12 active-user-item">
+                                                <a class="" href="javascript:" title="文章的标题">
+                                                    <div class="layui-row">
+                                                        <div class="layui-col-md2 active-user-line  padding-l-none padding-right">
+                                                            <span class="active-user-index top-1">1</span>
+                                                        </div>
+                                                        <div class="layui-col-md10 padding-lr-none active-user-line ">
+                                                            <span class="active-user-nickname">《论全栈大佬的牛逼》</span>
+                                                            <span class="active-user-comment-count"> 点击(1300次)</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="layui-col-md12 active-user-item">
+                                                <a class="" href="javascript:" title="文章的标题">
+                                                    <div class="layui-row">
+                                                        <div class="layui-col-md2 active-user-line padding-l-none padding-right">
+                                                            <span class="active-user-index top-2">2</span>
+                                                        </div>
+                                                        <div class="layui-col-md10 padding-lr-none active-user-line ">
+                                                            <span class="active-user-nickname">《论全站的牛逼》</span>
+                                                            <span class="active-user-comment-count"> 点击(1300次)</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="layui-col-md12 active-user-item">
+                                                <a class="" href="javascript:" title="文章的标题">
+                                                    <div class="layui-row">
+                                                        <div class="layui-col-md2 active-user-line padding-l-none padding-right">
+                                                            <span class="active-user-index top-3">3</span>
+                                                        </div>
+                                                        <div class="layui-col-md10 padding-lr-none active-user-line ">
+                                                            <span class="active-user-nickname">《论全站的牛逼》</span>
+                                                            <span class="active-user-comment-count"> 点击(1300次)</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="layui-col-md12 active-user-item">
+                                                <a class="" href="javascript:" title="文章的标题">
+                                                    <div class="layui-row">
+                                                        <div class="layui-col-md2 active-user-line padding-l-none padding-right">
+                                                            <span class="active-user-index">4</span>
+                                                        </div>
+                                                        <div class="layui-col-md10 padding-lr-none active-user-line ">
+                                                            <span class="active-user-nickname">《论全站的牛逼》</span>
+                                                            <span class="active-user-comment-count"> 点击(1300次)</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="layui-col-md12 active-user-item">
+                                                <a class="" href="javascript:" title="文章的标题">
+                                                    <div class="layui-row">
+                                                        <div class="layui-col-md2 active-user-line padding-l-none padding-right">
+                                                            <span class="active-user-index">5</span>
+                                                        </div>
+                                                        <div class="layui-col-md10 padding-lr-none active-user-line ">
+                                                            <span class="active-user-nickname">《论全站的牛逼》</span>
+                                                            <span class="active-user-comment-count"> 点击(1300次)</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 用户活跃排行 -->
+                <div class="layui-row margin-bottom display-none">
+                    <div class="layui-col-md12 padding-lr padding-r-none">
+                        <div class="layui-tab layui-tab-brief bg-white">
+                            <ul class="layui-tab-title tz-tabs">
+                                <li class="layer-tab-item layui-this">活跃用户</li>
+                            </ul>
+                            <div class="r layui-tab-content">
+                                <div class="layui-tab-item layui-show ">
+                                    <div class="layui-row margin-lr-none active-users">
+                                        <div class="layui-col-md12 active-user-item">
+                                            <div class="layui-row">
+                                                <div class="layui-col-md2 active-user-line padding-l-none padding-right">
+                                                    <span class="active-user-index top-1">1</span>
+                                                </div>
+                                                <div class="layui-col-md10 padding-lr-none active-user-line ">
+                                                    <img class="active-user-avatar" src="~/images/header/avatar_002.jpg" alt="">
+                                                    <span class="active-user-nickname">提拉米苏的呆猫</span>
+                                                    <span class="active-user-comment-count"> 评论(1300次)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md12 active-user-item">
+                                            <div class="layui-row">
+                                                <div class="layui-col-md2 active-user-line padding-l-none padding-right">
+                                                    <span class="active-user-index top-2">2</span>
+                                                </div>
+                                                <div class="layui-col-md10 padding-lr-none active-user-line">
+                                                    <img class="active-user-avatar" src="~/images/header/avatar_002.jpg" alt="">
+                                                    <span class="active-user-nickname">提拉米苏的呆猫</span>
+                                                    <span class="active-user-comment-count"> 评论(9999次)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md12 active-user-item">
+                                            <div class="layui-row">
+                                                <div class="layui-col-md2 active-user-line padding-l-none padding-right">
+                                                    <span class="active-user-index top-3">3</span>
+                                                </div>
+                                                <div class="layui-col-md10 padding-lr-none active-user-line">
+                                                    <img class="active-user-avatar" src="~/images/header/avatar_002.jpg" alt="">
+                                                    <span class="active-user-nickname">小鱼呆猫儿</span>
+                                                    <span class="active-user-comment-count"> 评论(520次)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md12 active-user-item">
+                                            <div class="layui-row">
+                                                <div class="layui-col-md2 active-user-line padding-l-none padding-right">
+                                                    <span class="active-user-index">4</span>
+                                                </div>
+                                                <div class="layui-col-md10 padding-lr-none active-user-line ">
+                                                    <img class="active-user-avatar" src="~/images/header/avatar_002.jpg" alt="">
+                                                    <span class="active-user-nickname">小呆瓜</span>
+                                                    <span class="active-user-comment-count"> 评论(520次)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 站长推荐 -->
+                <div class="layui-row margin-bottom">
+                    <div class="layui-col-md12 padding-lr padding-r-none">
+                        <div class="layui-tab layui-tab-brief bg-white">
+                            <ul class="layui-tab-title tz-tabs">
+                                <li class="layer-tab-item layui-this">博主推荐</li>
+                            </ul>
+                            <div class="r layui-tab-content">
+                                <div class="layui-tab-item layui-show ">
+                                    @foreach (var item in Model.ADs)
+                                    {
+                                        <a href="@item.Href" title="@item.Title" style="display:inline-block;width:100%;height:100%;position:relative;" target="@(item.Target?"_blank":"")">
+                                            <img style="width:100%" src="@item.Url" alt="博主推荐" />
+                                            <div style="position:absolute;text-align:center;bottom:0px;background-color:rgba(255,255,255,.5);color:#fff;width:100%;height:30px;line-height:30px;overflow:hidden;">@item.Title</div>
+                                        </a>
+                                        @*<a href="@item.Href" target="_blank" title="@item.Title"><img src="@item.Url" style="width:100%;margin-bottom:5px;" alt="@item.Title" /></a>*@
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 友情链接 -->
+                <div class="layui-row margin-bottom display-none">
+                    <div class="layui-col-md12 padding-lr padding-r-none">
+                        <div class="layui-tab layui-tab-brief bg-white">
+                            <ul class="layui-tab-title tz-tabs">
+                                <li class="layer-tab-item layui-this">友情链接</li>
+                            </ul>
+                            <div class="r layui-tab-content">
+                                <div class="layui-tab-item layui-show ">
+                                    <div class="layui-row">
+                                        <div class="layui-col-md4 friendship-links-item">
+                                            <a href="javascript:" title="友情链接">友情链接1</a>
+                                        </div>
+                                        <div class="layui-col-md4 friendship-links-item">
+                                            <a href="javascript:" title="友情链接">友情链接1</a>
+                                        </div>
+                                        <div class="layui-col-md4 friendship-links-item">
+                                            <a href="javascript:" title="友情链接">友情链接1</a>
+                                        </div>
+                                        <div class="layui-col-md4 friendship-links-item">
+                                            <a href="javascript:" title="友情链接">友情链接1</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="home-friendlinks bg-white">
+            <div class="layui-row">
+                <div class="layui-col-md12 padding-lr padding-l-none padding-r-none">
+                    <div class="l layui-tab layui-tab-brief bg-white blog-relative">
+                        <ul class="layui-tab-title tz-tabs">
+                            <li class="layer-tab-item layui-this">友情链接</li>
+                        </ul>
+                        <a href="/Home/Friendlinks" class="blog-more" title="去申请友链">去申请友链</a>
+                        <div class="layui-tab-content">
+                            <div class="layui-tab-item layui-show articles-list">
+                                <ul style="padding:10px 0;padding-bottom:5px;overflow:hidden;">
+                                    @foreach (var item in Model.FriendLinks)
+                                    { 
+                                        <li class="links-item" style="float:left;width:20%;box-sizing:border-box;padding:10px; ">
+                                            <div style="border:1px solid #e6e6e6;padding:5px 10px;padding-top:12px;text-align: center;border-radius: 2px;">
+                                                <a style="display:inline-block;width:100%;" href="@item.Url" target="_blank" title="@item.Name">
+                                                    <div class="cover-container" style="width:100%;height:40px;overflow:hidden;">
+                                                        <img style="width:100%;height:40px;" src="@item.Cover" alt="@item.Name" />
+                                                    </div>
+                                                    @*<p class="text-substr" style="width:100%;color:#555;margin-top:5px;">@item.Name</p>*@
+                                                </a>
+                                                @*<a style="display:inline-block;width:100%;" href="@item.Url" target="_blank" title="@item.Name">
+                                                        <img style="width:25px;height:25px;border-radius:50%;" src="@item.Cover" alt="@item.Name" />
+                                                        <span>@item.Name</span>
+                                                    </a>*@
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <script>
+        //初始化轮播图
+        var mainSwiper = {
+            swiper: function () {
+                return new Swiper('.swiper-container', {
+                    mousewheel: true,
+                    loop: true, // 循环模式选项
+                    pagination: { // 如果需要分页器
+                        el: '.swiper-pagination',
+                    },
+                    navigation: { // 如果需要前进后退按钮
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    }
+                });
+            },
+            listen: function () {
+
+                var _swiper = this.swiper();
+                _swiper.el.onmouseover = function () {
+                    _swiper.navigation.$nextEl.removeClass('hide');
+                    _swiper.navigation.$prevEl.removeClass('hide');
+                };
+                _swiper.el.onmouseout = function () {
+                    _swiper.navigation.$nextEl.addClass('hide');
+                    _swiper.navigation.$prevEl.addClass('hide');
+                };
+            },
+            init: function () {
+                this.listen();
+            }
+        };
+        mainSwiper.init();
+
+
+        function getArticles(param) {
+            $.ajax({
+                url: "/Home/GetArticles",
+                type: "post",
+                data: { index: param.curr, limit: param.limit },
+                dataType: "json",
+                success: function (res) {
+                    var t = '';
+                    if (res.length <= 0) {
+                        t = `<li style="padding: 200px 0; text-align: center; font-weight: 700;" class="articles-item-line margin-top-xs padding-bottom">没有搜索到相关的文章！</li>`;
+                    }
+                    else {
+                        res.forEach((item, index) => {
+                            console.log(item)
+                            t += `
+                                                    <li class="articles-item-line margin-top-xs padding-bottom">
+                                                                        <a href="/Home/ArticleDetail/${item.id}">
+                                                                            <div class="layui-row articles-item">
+                                                                                <div class="layui-col-md12">
+                                                                                    <div class="layui-row articles-item-content padding">
+                                                                                        <div class="layui-col-md4 articles-item-cover">
+                                                                                            <img src="${item.cover}" title="${item.title}" alt="${item.title}">
+                                                                                            <span class="article-item-category">${item.category.name}</span>
+                                                                                        </div>
+                                                                                        <div class="layui-col-md8 articles-list-items">
+                                                                                            <div class="layui-row">
+                                                                                                <div class="layui-col-md12">
+                                                                                                    <span class="layui-btn layui-btn-xs is-original">${item.isOwn ? "原创" : "转载"}</span>
+                                                                                                    <a href="/Home/ArticleDetail/${item.id}" title="${item.title}" class="articles-item-title margin-t-none">${item.title}</a>
+                                                                                                </div>
+                                                                                                <div class="layui-col-md12 articles-item-description">
+                                                                                                    <p> ${item.abstract}</p>
+                                                                                                </div>
+                                                                                                <div class="layui-col-md12">
+                                                                                                    <div class="layui-row">
+                                                                                                        <div class="layui-col-md8">
+                                                                                                            <img title="官方认证：站长" class="articles-item-avatar margin-right" src="${item.user.avatar === null ? "/images/defaultAvatar.jpg" : item.user.avatar}" alt="">
+                                                                                                            <span>${item.cTime}</span>
+                                                                                                            <span>【 <a class="" href="/Home/Category/${item.category.id}" target="_blank">${item.category.name}</a>】</span>
+                                                                                                        </div>
+                                                                                                        <div class="layui-col-md4 text-right">
+                                                                                                            <a href="/Home/ArticleDetail/${item.id}" class="to-article-detail layui-btn layui-btn-xs">阅读更多</a>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </a>
+                                                                    </li>
+                                        `;
+                        });
+                        $("#ArticlesList").html(t);
+                    }
+                },
+                fail: function () {
+                    alert(res.msg);
+                }
+            })
+        };
+        function initArticlesCount() {
+            $.ajax({
+                url: "/Home/GetArticleCount",
+                type: "post",
+                dataType: "json",
+                success: function (res) {
+                    layui.use(['element', 'laypage'], function () {
+                        var element = layui.element,
+                            laypage = layui.laypage;
+                        laypage.render({
+                            elem: 'PaginationHomeArticleContainer',
+                            count: res.count, //从后台获取值
+                            layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+                            jump: function (obj) {
+                                getArticles(obj);
+                            }
+                        });
+
+                    })
+                },
+                fail: function () {
+                    alert("请求错误");
+                }
+            })
+
+        }
+        window.onload = function () {
+            initArticlesCount();
+        }
+
+    </script>
+
+}

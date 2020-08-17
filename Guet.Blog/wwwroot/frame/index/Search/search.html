@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>搜索页面</title>
+    <link rel="stylesheet" href="../libs/layui/css/layui.css">
+    <link rel="stylesheet" href="../libs/bootstrap-3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" href="../Common/base.css">
+    <link rel="stylesheet" href="./search.css">
+</head>
+
+<body>
+    <section class="search-container container padding-tb">
+        <div class="row">
+            <!-- 搜索结果展示 -->
+            <div class="col-md-12 padding-lr-none">
+                <div class=" panel-dark bg-white">
+                    <div class="panel-heading search-result search-tips">
+                        搜索结果：
+                        <span class="tip-item search-success text-success">
+                            本次搜索 [ <strong id="SearchKeyArea">Niubility</strong> ] 一共搜索到 <strong id="SearchCount">99</strong> 条内容！
+                        </span>
+                        <span class="tip-item search-warning text-warning">
+                            <strong>很抱歉！</strong>
+                            <span>本次搜索没有找到 [ <strong id="SearchKeyArea">Niubility</strong> ] 相关的内容！您也可以点击</span>
+                        <a href="#" class="search-link">提交反馈</a> 给博主完善更多的内容！
+                        </span>
+                        <span class="tip-item search-danger text-danger">
+                            <strong>很抱歉！</strong>
+                            <span> 当前关键字 [ <strong id="SearchKeyArea">Niubility</strong> ] 已经被博主进行了屏蔽搜索！如果有疑问请</span>
+                        <a href="#" class="search-link">提交反馈</a> ！
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        搜索内容列表
+                    </div>
+                    <div class="panel-footer text-center bg-white">
+                        <div id="PaginationSearch"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../libs/jquery-3.4.1/jquery-3.4.1.js"></script>
+    <script src="../libs/bootstrap-3.3.7/js/bootstrap.js"></script>
+    <script src="../libs/layer/layer.js"></script>
+    <script src="../libs/layui/layui.js"></script>
+    <script src="../Common/base.js"></script>
+    <script src="./search.js"></script>
+
+</body>
+
+</html>

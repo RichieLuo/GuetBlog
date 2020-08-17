@@ -1,0 +1,225 @@
+﻿
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "文章分类管理";
+}
+
+
+<link href="~/lib/layui/css/layui.css" rel="stylesheet" />
+<style>
+    .table th {
+        text-align: center;
+    }
+</style>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <button class="layui-btn layui-btn-xs" style="position: absolute;  right: 40px; top: 15px;" id="AddBtn">+新建分类</button>
+            <ul class="nav nav-tabs page-tabs">
+                <li class="active"><a href="#!">文章分类</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active">
+                    <table class="text-center table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>名称</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ListContainer">
+                            <tr>
+                                <td colspan="3">暂无数据</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                        <div class="" id="PaginationContainer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/layui/layui.js"></script>
+    <script>
+        window.onload = function () {
+            layui.use(['element', 'laypage', 'layer', 'form', 'upload'], function () {
+                var element = layui.element,
+                    layer = layui.layer,
+                    form = layui.form,
+                    upload = layui.upload,
+                    laypage = layui.laypage;
+                function deleteData() {
+                    $(".delete-btn").off("click").on("click", function () {
+
+                        if (confirm("确定删除该分类吗？")) {
+                            $.ajax({
+                                url: "/Admin/DeleteCategory",
+                                type: "post",
+                                data: { Id: $(this).data("id") },
+                                dataType: "json",
+                                success: function (res) {
+                                    alert(res.msg);
+                                    if (res.status) {
+                                        initPage();
+                                    }
+                                },
+                                fail: function () {
+                                    alert(res.msg);
+                                }
+                            })
+                        }
+                    });
+                }
+                function formTemplate(data) {
+                    var _data = {
+                        id: "",
+                        name: ""
+                    };
+                    $.extend(_data, data);
+                    return `
+                                    <form class="layui-form layui-form-pane" action="" lay-filter="SaveForm" style="padding: 30px;box-sizing: content-box;overflow: hidden;">
+                                                    <input type="hidden" name="Id" value="${_data.id}">
+                                                     <div class="layui-form-item">
+                                                        <label class="layui-form-label">分类名称</label>
+                                                        <div class="layui-input-block">
+                                                          <input type="text" name="Name" value="${_data.name}" required lay-verify="required" placeholder="请输入分类名称" autocomplete="off" class="layui-input">
+                                                        </div>
+                                                      </div>
+                                                    <div class="layui-form-item" style="">
+                                                        <div class=" text-center">
+                                                          <button type="submit" id="SaveBtn" class="layui-btn" lay-submit="" lay-filter="SaveBtn">保存提交</button>
+                                                        </div>
+                                                      </div>
+                                                </form>
+
+                             `;
+                }
+
+                function addCategory() {
+                    $("#AddBtn").off("click").on("click", function () {
+
+                        layer.open({
+                            type: 1,
+                            title: "添加文章分类",
+                            area: ['450px', '220px'], //宽高
+                            content: formTemplate(),
+                            success: function () {
+                                form.render();
+                                addOrEdit();
+                            }
+                        });
+                    })
+                }
+                function getDataById() {
+
+                    $(".update-btn").off("click").on("click", function () {
+                        $.ajax({
+                            url: "/Admin/GetCategoryById",
+                            type: "post",
+                            data: {
+                                Id: $(this).data("id")
+                            },
+                            dataType: "json",
+                            success: function (res) {
+                                layer.open({
+                                    type: 1,
+                                    title: `修改【${res.data.name}】`,
+                                    area: ['450px', '220px'], //宽高
+                                    content: formTemplate(res.data),
+                                    success: function () {
+                                        form.render();
+                                        addOrEdit();
+                                    }
+                                });
+                            },
+                            error: function () {
+                                alert(res.msg);
+                            }
+                        })
+                    });
+                };
+                function addOrEdit() {
+                    form.on("submit(SaveBtn)", function (data) {
+                        console.log(data.field)
+                        $.ajax({
+                            url: "/Admin/AddOrEditCategory",
+                            type: "post",
+                            data: data.field,
+                            dataType: "json",
+                            success: function (res) {
+                                alert(res.msg);
+                                if (res.status) {
+                                    layer.closeAll();
+                                    initPage();
+                                }
+                            },
+                            fail: function () {
+                                alert(res.msg);
+                            }
+                        })
+
+                        return false;
+                    });
+                }
+                function getDatas(param) {
+                    $.ajax({
+                        url: "/Admin/GetCategories",
+                        type: "post",
+                        data: { index: param.curr, limit: param.limit },
+                        dataType: "json",
+                        success: function (res) {
+                            var t = '';
+                            res.data.forEach((item, index) => {
+
+                                t += `<tr">
+                                                   <th scope="row">${item.orderNumber}</th>
+                                               <td>${item.name}</td>
+                                               <td>
+                                                    <button class="btn btn-xs btn-primary update-btn" data-id="${item.id}">编辑</button>
+                                            <button class="btn btn-xs btn-danger delete-btn" data-id="${item.id}">删除</button>
+                                                 </td>
+                                                 </tr>
+                                          `;
+                            });
+
+                            $("#ListContainer").html(t);
+                            getDataById();
+                            deleteData();
+                        },
+                        fail: function () {
+                            alert(res.msg);
+                        }
+                    })
+                };
+                function initPage() {
+                    $.ajax({
+                        url: "/Admin/GetCategoriesCount",
+                        type: "post",
+                        dataType: "json",
+                        success: function (res) {
+
+                            laypage.render({
+                                elem: 'PaginationContainer',
+                                count: res, //从后台获取值
+                                layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip'],
+                                jump: function (obj) {
+                                    getDatas(obj);
+                                }
+                            });
+                        },
+                        fail: function () {
+                            alert("请求错误");
+                        }
+                    })
+                }
+                addCategory();
+                initPage();
+            })
+        }
+    </script>
+}
