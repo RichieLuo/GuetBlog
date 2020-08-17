@@ -18,8 +18,7 @@ namespace Guet.DataAccess.SqlServer
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class EntityRepository<T> : IEntityRepository<T> where T : class, IEntityBase, new()
-    {
-        public EntityDbContext EntitiesContext { get; set; }
+    {        public EntityDbContext EntitiesContext { get; set; }
         readonly EntityDbContext _EntitiesContext;
 
         public EntityRepository(EntityDbContext context)

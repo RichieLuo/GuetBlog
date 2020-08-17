@@ -607,7 +607,7 @@ namespace Guet.Web.Controllers
                 }
                 return Json(r);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new BaseResult() { Code = 500, Status = false, Msg = "操作失败，请重试！" });
             }

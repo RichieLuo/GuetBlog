@@ -132,7 +132,7 @@ namespace Guet.Web.Controllers
         /// 站内搜索
         /// </summary> 
         /// <returns></returns>
-        public async Task<IActionResult> Search(string key)
+        public IActionResult Search(string key)
         {
             //var data = await Search(new ParamsInputViewModel() { Key = key });
             //return View(data.Data);

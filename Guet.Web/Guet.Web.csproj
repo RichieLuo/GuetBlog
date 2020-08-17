@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>d1942c47-96df-4707-aeda-2e709bba1184</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
@@ -13,6 +14,10 @@
     <ProjectReference Include="..\Guet.DataAccess\Guet.DataAccess.csproj" />
     <ProjectReference Include="..\Guet.Entities\Guet.Entities.csproj" />
     <ProjectReference Include="..\Guet.ViewModel\Guet.ViewModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\qrCode\" />
   </ItemGroup>
 
 </Project>
